@@ -1,0 +1,176 @@
+
+
+Ps: as coisas que ele anotou NAS CLASSES não estão anotadas aqui, estão anotadas nas proprias classes(assim como foi feito pelo professor)
+
+
+
+
+
+
+1°Dia
+-------
+
+
+
+A class SERVIDOR teria array list de sala
+
+A class SALA teria array list de usuário
+
+O Chat vai ter SALAS, então o SERVIDOR poderia ter um array list de salas
+
+
+O USUARIO teria-- 1 socket
+                  1 printWriter
+                  1 bufferedReader
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TUDO NO PROGRAMA SERVIDOR, vamos ter 1 programa servidor, e vários programas USUARIOS, servidor vai ter uma quantidade bem grande de sockets, printWriters,bufferedReader, etc... 
+Pois teremos vários usuários e cada um terá um desses.
+
+
+
+
+
+
+
+COMO VAMOS ESTRUTURAR O SERVIDOR?  (class SERVIDOR)
+
+A base dessa estrutura
+
+A main desse programa tem a missão:
+
+  
+1) Declarar e instanciar um objeto da class SALAS
+
+
+2)Em seguida deve colocar nele, objetos da class SALA(como vamos colocar? Recuperar de um banco de dados, uma tabela node estão guardadas as salas que devem existir, 
+os dados, e vai criar uma sala,o banco vai ter todas as salas que devem existir, e o programa vai recuperá-las e colocá-las(na tabela, pode ter o nome da sala,quantidade de usuários,códiga da sala))
+
+
+
+
+3)Em loop, fazer accepts(eles geram sockets) e declarar instanciar(passando o socket gerado e  objeto da classe SALAS no accept para o construtor),startar threads  para o construtor
+z
+
+
+
+
+
+
+
+
+Para agora: criar classes SALA, SALAS e USUARIO
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+2°dia 
+--------
+
+ 
+criar hierarquia de classes 
+
+
+criar interface ENVIÁVEL --> pode ser abstrata ou não, depende de ter ou não ter algum método abstrato nela(tudo que for para sair da sala herda de enviável)
+
+
+criar classe MENSAGEM --> pra enviar mensagem(implements Enviavel, possuira atributos texto e destinatário)
+
+
+
+criar classe PedidoParaSairdaSala -->  pede para sair da sala atual(implements Enviavel, pois envia um pedido, possuirá: usuario e sala)
+
+
+criar classe SalasDisponiveis(implements Enviavel, envia para o usuário quais são as salas disponiveis possui: arrayList cheio de strings(nomes das salas), posso dizer quantas vagas e lugares ocupados possui as salas(varios array lists))
+
+
+criar classe EscolhaDeSala(implements Enviavel)
+
+
+TODA CLASSE QUE HERDA DE ENVIAVEL VAI HERDAR DE CLONEABLE(se tiver setters)
+
+Enviavel tem de ser "extends serializable", SERIALIZABLE é: qualquer coisa que vc pretende escrever ou ler de um ObjectOutPutStream
+
+
+o que vai ter nessas classes : getters, setters, construtor, construtor que recebe tudo e cria.	
+
+
+
+criar classe AvisoDeEntradaNaSala  --> todos da sala devem ficar sabendo da entrada(todos da sala devem receber o aviso de que alguém chegou(- this.usuario))
+
+criar classe AvisoDeSaidaDaSala	    --> todos da sala devem ficar sabendo da saída(todos da sala devem receber o aviso de que alguém saiu(- this.usuario))
+
+
+
+
+
+
+(obs: a classe Sala pode ter um getUsuario(retorna o arrayList de Usuarios))
+
+CuidadorDeUsuario --> recebe avisos de entrada e saída 
+
+
+
+
+--------------------------------------------------------------
+SOBRE O BANCO DE DADOS 
+
+
+Um da equipe cria uma tabela no BD de hardData  --> dados que são puxados diretamente do Banco de Dados, utilizamos para coisas que raramente mudam.
+
+
+
+hardCode --> as opções estão inseridas diretamente no programa 
+----------------------------------------------------------------------------------
+
+Como evitar problema entre Threads
+
+
+
+
+syncronized(x) --> "x" é um objeto da classe sala ou classe usuario ou classe salas 
+
+
+se está dentro desse comando, têm preferência, você poderá usar sem outra pessoa usar junto.
+
+Ele faz tudo, cuida de tudo, ele é um deus
+
+
+
+syncronized --> QUERO USAR SOZINHO NINGUEM MAIS USA.
+-------------------------------------------------------------------------------
+
+As THREADS cuidadoras servem pra receber coisas do Usuario que ela cuida
+Ela não manda nada por usuario que ela cuida
+
+
+
+Ex: Se o usuario que a thread cuida quer mandar uma mensagem, a thread manda uma mensagem pro usuario que ela nãu cuida(destinatário da mensagem )
+
+
+
+----------------------------------------------------------------------------------------
+
+COMO DESCOBRIR SE A PESTE DIGITOU ALGO?
+
+O focusListener descobre onde foi clicado, depois dele, roda o metodo focusGained
+
+é só por um keyListener no elemento da interface gráfica que a gente quer que fique ligado nas digitações
+
+
+
+
+
