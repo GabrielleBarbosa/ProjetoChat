@@ -4,8 +4,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.net.*;
 
-
-
 public class Usuario
 {
  	protected String nome;
