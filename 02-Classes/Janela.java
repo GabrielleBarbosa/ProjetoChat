@@ -9,7 +9,7 @@ import java.io.*;
 
 
 
-public class Janela`		AreaDeConversa
+public class Janela
 {
 	// O QUE DECLARAR?
 	private JFrame janela = new JFrame("Sala");
@@ -20,7 +20,7 @@ public class Janela`		AreaDeConversa
 	private JButton btnSair = new JButton();	//sair da sala atual
 	//private ServerSocket pedido;
 	//private Socket conexao;
-	//private PrintWriter transmissor;
+	private ObjectOutputStream transmissor;
 
 
 	private class TratadorDeRedimensionamento implements ComponentListener
@@ -58,14 +58,14 @@ public class Janela`		AreaDeConversa
 	}
 	*/
 
-	/*
+
 	public Janela(Socket s) throws Exception
 		{
 			conexao = s;
-			transmissor = new PrintWriter(conexao.getOutputStream());
+			transmissor = new ObjectOutputStream(conexao.getOutputStream());
 			design();
 	}
-	*/
+
 
 	private void design()
 		{
