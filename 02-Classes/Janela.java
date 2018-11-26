@@ -18,8 +18,8 @@ public class Janela
 	private JTextArea AreaDeConversa = new JTextArea();	//Área na qual são escritas as mensagens
 	private JButton btnEnviar = new JButton();	//envia mensagem
 	private JButton btnSair = new JButton();	//sair da sala atual
-	//private ServerSocket pedido;
-	//private Socket conexao;
+	private ServerSocket pedido;
+	private Socket conexao;
 	private ObjectOutputStream transmissor;
 
 
@@ -60,7 +60,7 @@ public class Janela
 
 
 	public Janela(Socket s) throws Exception
-		{
+	{
 			conexao = s;
 			transmissor = new ObjectOutputStream(conexao.getOutputStream());
 			design();
@@ -75,11 +75,11 @@ public class Janela
 			painel.setLayout (new GridLayout(1,2));
 
 			Font fonte = new Font ("Arial", Font.PLAIN, 20);
-			TratadorDeEvento tratador = new TratadorDeEvento();
+			//TratadorDeEvento tratador = new TratadorDeEvento();
 
 			this.btnEnviar.setFont(fonte);
 			this.btnEnviar.setText("Enviar");
-			this.btnEnviar.addActionListener(tratador);
+			//this.btnEnviar.addActionListener(tratador);
 
 			this.btnSair.setFont(fonte);
 			this.btnSair.setText("Sair");
