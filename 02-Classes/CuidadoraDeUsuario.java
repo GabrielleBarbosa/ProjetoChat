@@ -15,27 +15,34 @@ public class CuidadoraDeUsuario extends Thread
 
 	public void run()
 	{
-		instanciarUsuario();
-		//loops for(;;) --> fim no break(pedido para sair da sala)
-		Enviavel recebido=null;
-		do
+		try
 		{
-			recebido=usuario.recebe();
-			if(recebido instanceof Mensagem)
-				recebido.getDestinatario().envia(recebido);
+			instanciarUsuario();
+
+			//loops for(;;) --> fim no break(pedido para sair da sala)
+			Enviavel recebido=null;
+			do
+			{
+				recebido=usuario.recebe();
+				if(recebido instanceof Mensagem)
+					((Mensagem)recebido).getDestinatario().envia(recebido);
+			}
+			while(!(recebido instanceof PedidoParaSairDaSala));
+
+			//remover o this.usuario da sala
+			//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNick())
+			usuario.getSala().removerUsuario(usuario);
+
+			for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
+				this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario));
+			this.usuario.fechaTudo();
+
 		}
-		while(!(recebido instanceof PedidoParaSairDaSala));
-
-		//remover o this.usuario da sala
-		//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNick())
-		usuario.getSala().removerUsuario(usuario);
-
-		for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
-			this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario));
-		this.usuario.fechaTudo();
+		catch(Exception err)
+		{}
 	}
 
-	private void instanciarUsuario()
+	private void instanciarUsuario() throws Exception
 	{
 		// declarar e instanciar ObjectOutputStream e ObjectInputStream
 		ObjectOutputStream OOS = new ObjectOutputStream(conexao.getOutputStream());
@@ -53,7 +60,7 @@ public class CuidadoraDeUsuario extends Thread
 				String s = ((EscolhaDeSala)obj).getNomeSala();
 
 				if(!(salas.existeSala(s)))
-					OIS.writeObject(new AvisoDeSalaInvalida());
+					OOS.writeObject(new AvisoDeSalaInvalida());
 				else
 				{
 					sala = salas.getSala(s);

@@ -2,7 +2,7 @@ public class SalasDisponiveis implements Enviavel
 {
 	private Salas salas;
 
-	public SalasDisponiveis(Salas salas)
+	public SalasDisponiveis(Salas salas) throws Exception
 	{
 		if(salas == null)
 			throw new Exception("Objeto de Salas é null");
@@ -15,7 +15,7 @@ public class SalasDisponiveis implements Enviavel
 		return this.salas.getQtdSalas();
 	}
 
-	public String getNomeSala(int index)
+	public String getNomeSala(int index) throws Exception
 	{
 		if(index < 0 || index >= this.getQtdSalas())
 			throw new Exception("index inválido");

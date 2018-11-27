@@ -2,7 +2,7 @@ public class AvisoDeEntradaNaSala implements Enviavel
 {
 	private Usuario remetente;
 
-	public AvisoDeEntradaNaSala(Usuario r)
+	public AvisoDeEntradaNaSala(Usuario r) throws Exception
 	{
 		if(r == null)
 			throw new Exception("Usuario fornecido é null");

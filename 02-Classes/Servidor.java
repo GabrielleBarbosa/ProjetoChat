@@ -1,19 +1,25 @@
 import java.io.*;
+import java.net.*;
 
 public class Servidor
 {
 	public static void Main(String[] args)
 	{
-		Salas salas = new Salas();
-		ServerSocket pedido = new ServerSocket("123.45.67.89", 12321); // ip e porta
-
-		for(;;)
+		try
 		{
-			Socket conexao = pedido.accept();
-			CuidadoraDeUsuario cuidadora = new CuidadoraDeUsuario();
-			cuidadora.start();
+			Salas salas = new Salas();
+			ServerSocket pedido = new ServerSocket(12321); // ip e porta
 
-			//aqui pode ter outras coisas
+			for(;;)
+			{
+				Socket conexao = pedido.accept();
+				CuidadoraDeUsuario cuidadora = new CuidadoraDeUsuario( conexao, salas);
+				cuidadora.start();
+
+				//aqui pode ter outras coisas
+			}
 		}
+		catch(Exception err)
+		{}
 	}
 }
