@@ -24,12 +24,14 @@ public class CuidadoraDeUsuario extends Thread
 			if(recebido instanceof Mensagem)
 				recebido.getDestinatario().envia(recebido);
 		}
-		while(!(recebido instanceof PedidoParaSairDaSala))
+		while(!(recebido instanceof PedidoParaSairDaSala));
 
 		//remover o this.usuario da sala
 		//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNick())
 		usuario.getSala().removerUsuario(usuario);
-		usuario.envia(new AvisoDeSaidaDaSala(this.usuario));
+
+		for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
+			this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario));
 		this.usuario.fechaTudo();
 	}
 
@@ -37,7 +39,7 @@ public class CuidadoraDeUsuario extends Thread
 	{
 		// declarar e instanciar ObjectOutputStream e ObjectInputStream
 		ObjectOutputStream OOS = new ObjectOutputStream(conexao.getOutputStream());
-		ObjectInputStream OIS = new ObjectInputStream(new InputStreamReader(conexao.getInputStream()));
+		ObjectInputStream OIS = new ObjectInputStream(conexao.getInputStream());
 		Sala sala;
 		// interagir com o usuário via OOS e OIS para(até) descobrir sala desejada, eventualmente informando sala cheia
 		// procurar em salas a sala com o nome desejado
@@ -48,7 +50,7 @@ public class CuidadoraDeUsuario extends Thread
 
 			if(obj instanceof EscolhaDeSala)
 			{
-				String s = EscolhaDeSala.getNomeSala();
+				String s = ((EscolhaDeSala)obj).getNomeSala();
 
 				if(!(salas.existeSala(s)))
 					OIS.writeObject(new AvisoDeSalaInvalida());
@@ -82,14 +84,18 @@ public class CuidadoraDeUsuario extends Thread
 		}
 		// instanciar um Usuario, fornecendo conexao, OOS, OIS, sala e nome
 		usuario = new Usuario(nome,conexao,sala,OOS,OIS);
+
 		// enviar para todos os usuarios da sala new AvisoDeEntradaNaSala(usuario.getNome())//this.usuario.envia(new AvisoDeEntradaNaSala())
-		this.usuario.envia(new AvisoDeEntradaNaSala(usuario));
-		for(int i=0;i<sala.getQtdOcupado;i++)
-			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(usuario.getNome()));
+		for(int i=0;i<sala.getQtdOcupado();i++)
+			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(sala.getUsuario(i)));
+
+		for(int i=0;i<sala.getQtdOcupado();i++)
+			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(this.usuario));
+
 		// enviar para o usuario muitos new AvisoDeEntradaNaSala(i), onde i é o nome de algum usuario que já estava na sala //i.envia(new AvisoDeEntradaNaSala(usuario.getNome())
-		for(int i=0;i<sala.getQtdOcupado;i++)
-			usuario.envia(new AvisoDeEntradaNaSala(sala.getUsuario(i).getNome()));
+		for(int i=0;i<sala.getQtdOcupado();i++)
+			usuario.envia(new AvisoDeEntradaNaSala(sala.getUsuario(i)));
 		// incluir o usuario na sala
-		sala.adicionar(usuario);
+		sala.adicionarUsuario(usuario);
 	}
 }

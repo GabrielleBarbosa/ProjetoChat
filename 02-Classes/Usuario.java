@@ -14,7 +14,7 @@ public class Usuario
 
 	public Usuario(String nick, Socket s, Sala sa, ObjectOutputStream o, ObjectInputStream i)throws Exception //mandados pela thread
 	{
-		if(this.nome == null||this.skUsuario == null||this.sala == null ||this.receptor == null ||this.transmissor == null)
+		if(nick == null||s == null||sa == null ||i == null ||o == null)
 		   throw new Exception("PASSE TODOS OS PARÂMETROS!!!");
 
 		//verificar parâmetros(existência da sala)
@@ -31,6 +31,11 @@ public class Usuario
 		return this.nome;
 	}
 
+	public Sala getSala()
+	{
+		return this.sala;
+	}
+
 	public void envia(Enviavel x)
 	{
 		transmissor.writeObject(x);
@@ -39,7 +44,11 @@ public class Usuario
 
 	public Enviavel recebe() throws Exception//vai ser em janela
 	{
-		return this.receptor.readObject();
+		Object obj = this.receptor.readObject();
+		if(!(obj instanceof Enviavel))
+			throw new Exception("Objeto lido não é Enviavel!!");
+
+		return (Enviavel)this.receptor.readObject();
 	}
 
 	public void fechaTudo()
@@ -72,7 +81,7 @@ public class Usuario
 		if (this.nome!=usu.nome)
 		    return false;
 
-		if(this.skUsuario!=usu.skUsuario)
+		if(this.conexao!=usu.conexao)
 		   return false;
 
 		if(this.receptor!= usu.receptor)

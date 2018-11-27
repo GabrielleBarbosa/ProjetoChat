@@ -2,6 +2,5 @@
 
 public interface Enviavel extends Serializable //implements é quando mistura classes e interfaces, extends é para do mesmo tipo
 {
-	Usuario enviador;
-	Usuario receptor;
+
 }

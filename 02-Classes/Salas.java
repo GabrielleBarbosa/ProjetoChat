@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 public class Salas
 {
-	protected ArrayList<Sala> listaSalas;
+	private ArrayList<Sala> listaSalas;
+	private int qtdSalas;
 
 	public Salas()
 	{
 		listaSalas = new ArrayList<Sala>();
+		this.qtdSalas = this.listaSalas.size();
 	}
 
 	public void adicionarSala(Sala sala)
@@ -13,7 +15,7 @@ public class Salas
 		listaSalas.add(sala);
 	}
 
-	public boolean ExisteSala (String nome)
+	public boolean existeSala (String nome)
 	{
 		for(int i=0; i<listaSalas.size();i++)
 			if(listaSalas.get(i).getNome() == nome)
@@ -22,13 +24,26 @@ public class Salas
 		return false;
 	}
 
-	public Sala getSala(String nome)
+	public Sala getSala(String nome) throws Exception
 	{
 		for(int i=0; i<listaSalas.size();i++)
 			if(listaSalas.get(i).getNome() == nome)
 				return listaSalas.get(i);
 
 		throw new Exception("Nome de sala inexistente");
+	}
+
+	public String getNomeSala(int index) throws Exception
+	{
+		if(index >= this.qtdSalas || index < 0)
+			throw new Exception("index inválido");
+
+		return this.listaSalas.get(index).getNome();
+	}
+
+	public int getQtdSalas()
+	{
+		return this.qtdSalas;
 	}
 
 	public String toString()
