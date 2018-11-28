@@ -13,6 +13,7 @@ public class Janela
 	private JFrame janela = new JFrame("Sala");
 	private JTextField txtEnvia = new JTextField();
 	private JTextArea AreaDeConversa = new JTextArea();	//Área na qual são escritas as mensagens
+	private JLabel lblNomeUsuario = new JLabel();  //label com o nome do fudido
 	private JButton btnEnviar = new JButton();	//envia mensagem
 	private JButton btnSair = new JButton();	//sair da sala atual
 	private JButton btnSalasDisp = new JButton();
@@ -21,6 +22,13 @@ public class Janela
 	private Socket conexao;
 	private ObjectOutputStream transmissor;
 	private ObjectInputStream receptor;
+
+
+	//objetos do primeiro panel que abre
+	private JLabel Salas = new JLabel("Escolha uma Sala:");
+	private JComboBox escolhaSala = new JComboBox();
+
+
 
 
 	private class TratadorDeRedimensionamento implements ComponentListener
@@ -34,6 +42,7 @@ public class Janela
 				btnSair.setFont(fonte);
 				btnSalasDisp.setFont(fonte);
 				btnTeste.setFont(fonte);
+				lblNomeUsuario.setFont(fonte);
 			}
 
 			public void componentMoved(java.awt.event.ComponentEvent e)
@@ -69,48 +78,62 @@ public class Janela
 	}
 
 
-	private void design()
+	public void escolhaDeSala()
 	{
 
-			JPanel painelSul = new JPanel();
-			painelSul.setLayout (new GridLayout(1,2));
-
-			JPanel painelNorte = new JPanel();
-			painelNorte.setLayout(new GridLayout(1,2));
-
-			JPanel painelSalas = new JPanel();
-			painelSalas.setLayout(new GridLayout(50,1));
-
-			JPanel painelConversas = new JPanel();
-			painelConversas.setLayout(new GridLayout(50,1));
-
-			//TratadorDeEvento tratador = new TratadorDeEvento();
-
-			this.btnEnviar.setText("Enviar");
-			//this.btnEnviar.addActionListener(tratador);
+	}
 
 
-			this.btnSair.setText("Sair");
-			//this.btnSair.addActionListener(tratador);
+	private void Criacao()
+	{
+		JPanel painelSul = new JPanel();
+		painelSul.setLayout (new GridLayout(1,2));
 
-			this.btnSalasDisp.setText("Salas");
-			//this.btnSair.addActionListener(tratador);
+		JPanel painelNorte = new JPanel();
+		painelNorte.setLayout(new GridLayout(1,2));
+
+		JPanel painelSalas = new JPanel();
+		painelSalas.setLayout(new GridLayout(50,1));
+
+		JPanel painelConversas = new JPanel();
+		painelConversas.setLayout(new GridLayout(50,1));
+
+		//TratadorDeEvento tratador = new TratadorDeEvento();
+
+		this.btnEnviar.setText("Enviar");
+		//this.btnEnviar.addActionListener(tratador);
 
 
-			painelSul.add(txtEnvia);
-			painelSul.add(btnEnviar);
+		this.btnSair.setText("Sair");
+		//this.btnSair.addActionListener(tratador);
 
-			painelNorte.add(btnSair);
-			painelNorte.add(btnSalasDisp);
+		this.btnSalasDisp.setText("Salas");
+		//this.btnSair.addActionListener(tratador);
 
-			this.janela.setSize (900,800);
-			this.janela.getContentPane().setLayout(new BorderLayout());
 
-			this.janela.add(painelSul,BorderLayout.SOUTH);
-			this.janela.add(painelNorte,BorderLayout.NORTH);
-			this.janela.add(painelSalas,BorderLayout.EAST);
-			this.janela.add(painelConversas,BorderLayout.WEST);
-			this.janela.add(AreaDeConversa, BorderLayout.CENTER);
+		painelSul.add(txtEnvia);
+		painelSul.add(btnEnviar);
+
+		painelNorte.add(btnSair);
+		painelNorte.add(lblNomeUsuario);
+		painelNorte.add(btnSalasDisp);
+
+		this.janela.setSize (900,800);
+		this.janela.getContentPane().setLayout(new BorderLayout());
+
+		this.janela.add(painelSul,BorderLayout.SOUTH);
+		this.janela.add(painelNorte,BorderLayout.NORTH);
+		this.janela.add(painelSalas,BorderLayout.EAST);
+		this.janela.add(painelConversas,BorderLayout.WEST);
+		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
+	}
+
+	private void design()
+	{
+		JPanel painelEscolhaDeSala = new JPanel();
+		painelEscolhaDeSala.setLayout(new FlowLayout());
+
+
 
 			this.janela.addComponentListener (new TratadorDeRedimensionamento());
 			this.janela.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -118,8 +141,8 @@ public class Janela
 	}
 	/*
 	public void mostra(String textoR)
-		{
-			AreaDeConversa.append(textoR + "\n");
+	{
+		AreaDeConversa.append(textoR + "\n");
 	}
 	*/
 }

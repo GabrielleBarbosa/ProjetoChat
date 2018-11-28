@@ -12,6 +12,10 @@ public class Cliente //instancia janela
 		{
 			//Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
 			Janela janela = new Janela(/*conexao*/);
+			for(;;)
+			{
+				escolhaDeSala();
+			}
 	    }
 	    catch(Exception err)
 	    {}
