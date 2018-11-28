@@ -1,3 +1,5 @@
+package usuario;
+import enviavel.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -45,14 +47,14 @@ public class Usuario
 		transmissor.flush();
 	}
 
-	public Enviavel recebe() throws Exception//vai ser em janela
+	public Enviavel recebe() throws Exception
 	{
 		Object obj = this.receptor.readObject();
 
 		if(!(obj instanceof Enviavel))
 			throw new Exception("Objeto lido não é Enviavel!!");
 
-		return (Enviavel)this.receptor.readObject();
+		return (Enviavel)obj;
 	}
 
 	public void fechaTudo() throws Exception

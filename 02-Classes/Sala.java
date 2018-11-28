@@ -1,4 +1,7 @@
+package sala;
+import usuario.*;
 import java.util.ArrayList;
+
 public class Sala
 {
 	protected ArrayList<Usuario> listaUsuarios;
@@ -67,6 +70,18 @@ public class Sala
 			throw new Exception("index fora dos limites");
 
 		return listaUsuarios.get(index);
+	}
+
+	public Usuario getUsuario(String nome)throws Exception
+	{
+			if(nome == null || nome == "")
+				throw new Exception("Parâmetro null");
+
+			for(int i=0; i<this.qtdOcupado; i++)
+				if(listaUsuarios.get(i).getNome() == nome)
+					return listaUsuarios.get(i);
+
+			throw new Exception("Usuario não consta na sala");
 	}
 
 	public void adicionarUsuario(Usuario usuario) throws Exception
