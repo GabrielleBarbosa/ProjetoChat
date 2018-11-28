@@ -17,13 +17,13 @@ public class Usuarios
             String sql;
             
             sql = "Insert into Usuario" +
-                  "(codUsuario, nome)" +
+                  "(codSala, nome)" +
                   "Values" +
                   "(?,?)";
             
             BDSQLServer.COMANDO.prepareStatement (sql);
             
-            BDSQLServer.COMANDO.setInt (1, usuario.getCodUsuario());
+            BDSQLServer.COMANDO.setInt (1, usuario.getCodSala());
             BDSQLServer.COMANDO.setString (2, usuario.getNome());
         }
     }
