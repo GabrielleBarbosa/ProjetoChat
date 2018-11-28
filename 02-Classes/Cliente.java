@@ -10,9 +10,8 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			System.out.println("aaaaaaaaaaaaaa");
-			Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
-			Janela janela = new Janela(conexao);
+			//Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
+			Janela janela = new Janela(/*conexao*/);
 	    }
 	    catch(Exception err)
 	    {}
