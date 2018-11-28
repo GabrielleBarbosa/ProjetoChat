@@ -6,9 +6,6 @@ import java.io.*;
 
 
 //TUDO QUE ESTÁ COMENTADO É PORQUE PODE MUDAR OU QUE NÃO HÁ CERTEZA DA UTILIZAÇÃO
-
-
-
 public class Janela
 {
 	// O QUE DECLARAR?
@@ -21,6 +18,7 @@ public class Janela
 	private ServerSocket pedido;
 	private Socket conexao;
 	private ObjectOutputStream transmissor;
+	private ObjectInputStream receptor;
 
 
 	private class TratadorDeRedimensionamento implements ComponentListener
@@ -63,12 +61,13 @@ public class Janela
 	{
 			conexao = s;
 			transmissor = new ObjectOutputStream(conexao.getOutputStream());
+			receptor = new ObjectInputStream(conexao.getInputStream());
 			design();
 	}
 
 
 	private void design()
-		{
+	{
 			this.lblMsg.setFont(new Font("Arial", Font.PLAIN, 26));
 
 			JPanel painel = new JPanel();

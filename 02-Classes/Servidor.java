@@ -3,19 +3,17 @@ import java.net.*;
 
 public class Servidor
 {
-	public static void Main(String[] args)
+	public static void main(String[] args)
 	{
 		try
 		{
 			Salas salas = new Salas();
 			ServerSocket pedido = new ServerSocket(12321); // ip e porta
-
 			for(;;)
 			{
 				Socket conexao = pedido.accept();
-				CuidadoraDeUsuario cuidadora = new CuidadoraDeUsuario( conexao, salas);
+				CuidadoraDeUsuario cuidadora = new CuidadoraDeUsuario(conexao, salas);
 				cuidadora.start();
-
 				//aqui pode ter outras coisas
 			}
 		}
