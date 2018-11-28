@@ -1,7 +1,7 @@
 create table Usuario
 (
 	codSala int not null,
-	constraint fkSala foreing key(codSala) references Sala
+	constraint fkSala foreing key(codSala) references Sala(codSala)
 	nome varchar(50) not null
 )
 
