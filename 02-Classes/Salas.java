@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+
+
 public class Salas
 {
 	private ArrayList<Sala> listaSalas;
@@ -31,6 +33,14 @@ public class Salas
 				return listaSalas.get(i);
 
 		throw new Exception("Nome de sala inexistente");
+	}
+
+	public Sala getSala(int index) throws Exception
+	{
+		if(index < 0 || index > this.qtdSalas)
+			throw new Exception("index fora dos limites");
+
+		return this.listaSalas.get(index);
 	}
 
 	public String getNomeSala(int index) throws Exception

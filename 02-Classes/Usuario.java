@@ -1,5 +1,3 @@
-package usuario;
-import enviavel.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;

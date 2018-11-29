@@ -1,22 +1,17 @@
 public class AvisoDeEntradaNaSala implements Enviavel
 {
-	private Usuario remetente;
+	private String remetente;
 
-	public AvisoDeEntradaNaSala(Usuario r) throws Exception
+	public AvisoDeEntradaNaSala(String r) throws Exception
 	{
-		if(r == null)
+		if(r == null || r == "")
 			throw new Exception("Usuario fornecido é null");
 
 		this.remetente = r;
 	}
 
-	public Usuario getUsuario()
+	public String getRemetente()
 	{
 		return this.remetente;
-	}
-
-	public String getNomeUsuario()
-	{
-		return this.remetente.getNome();
 	}
 }

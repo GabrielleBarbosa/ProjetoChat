@@ -1,5 +1,3 @@
-package sala;
-import usuario.*;
 import java.util.ArrayList;
 
 public class Sala
@@ -11,11 +9,11 @@ public class Sala
 	protected int qtdMax;
 	protected int qtdOcupado;
 
-	public Sala(String n, int q, String t)
+	public Sala(String n, int q, String t, int c)
 	{
 		this.listaUsuarios = new ArrayList<Usuario>(q);
 		this.nome = n;
-		this.cod = 0; // fazer com banco de dados
+		this.cod = c;
 		this.qtdMax = q;
 		this.tema = t;
 		this.qtdOcupado = this.listaUsuarios.size();

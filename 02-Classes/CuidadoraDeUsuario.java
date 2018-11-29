@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class CuidadoraDeUsuario extends Thread
 {
@@ -20,21 +21,33 @@ public class CuidadoraDeUsuario extends Thread
 			instanciarUsuario();
 
 			//loops for(;;) --> fim no break(pedido para sair da sala)
-			Enviavel recebido=null;
+			Enviavel recebido = null;
 			do
 			{
-				recebido=usuario.recebe();
+				recebido = usuario.recebe();
+
 				if(recebido instanceof Mensagem)
-					((Mensagem)recebido).getDestinatario().envia(recebido);
+				{
+					if(((Mensagem)recebido).getDestinatario() == "")
+						for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
+							this.usuario.getSala().getUsuario(i).envia(recebido);
+					else
+					{
+						String nomeDestinatario = ((Mensagem)recebido).getDestinatario();
+						usuario.getSala().getUsuario(nomeDestinatario).envia(recebido);
+					}
+
+				}
 			}
 			while(!(recebido instanceof PedidoParaSairDaSala));
 
 			//remover o this.usuario da sala
 			//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNick())
+			for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
+				this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario.getNome()));
+
 			usuario.getSala().removerUsuario(usuario);
 
-			for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
-				this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario));
 			this.usuario.fechaTudo();
 
 		}
@@ -50,9 +63,15 @@ public class CuidadoraDeUsuario extends Thread
 		Sala sala;
 		// interagir com o usuário via OOS e OIS para(até) descobrir sala desejada, eventualmente informando sala cheia
 		// procurar em salas a sala com o nome desejado
+
+		ArrayList<String> listaNomeSalas = new ArrayList<String>(salas.getQtdSalas());
+
+		for(int i=0; i<salas.getQtdSalas(); i++)
+			listaNomeSalas.add(salas.getSala(i).getNome());
+
 		for(;;)
 		{
-			OOS.writeObject(new SalasDisponiveis(salas));
+			OOS.writeObject(new SalasDisponiveis(listaNomeSalas));
 			Object obj = OIS.readObject();
 
 			if(obj instanceof EscolhaDeSala)
@@ -94,14 +113,12 @@ public class CuidadoraDeUsuario extends Thread
 
 		// enviar para todos os usuarios da sala new AvisoDeEntradaNaSala(usuario.getNome())//this.usuario.envia(new AvisoDeEntradaNaSala())
 		for(int i=0;i<sala.getQtdOcupado();i++)
-			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(sala.getUsuario(i)));
-
-		for(int i=0;i<sala.getQtdOcupado();i++)
-			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(this.usuario));
+			sala.getUsuario(i).envia(new AvisoDeEntradaNaSala(this.usuario.getNome()));
 
 		// enviar para o usuario muitos new AvisoDeEntradaNaSala(i), onde i é o nome de algum usuario que já estava na sala //i.envia(new AvisoDeEntradaNaSala(usuario.getNome())
 		for(int i=0;i<sala.getQtdOcupado();i++)
-			usuario.envia(new AvisoDeEntradaNaSala(sala.getUsuario(i)));
+			usuario.envia(new AvisoDeEntradaNaSala(sala.getUsuario(i).getNome()));
+
 		// incluir o usuario na sala
 		sala.adicionarUsuario(usuario);
 	}

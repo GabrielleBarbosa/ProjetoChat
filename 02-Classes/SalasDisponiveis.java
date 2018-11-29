@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class SalasDisponiveis implements Enviavel
 {
-	private Salas salas;
+	private ArrayList<String> salas;
 
-	public SalasDisponiveis(Salas salas) throws Exception
+	public SalasDisponiveis(ArrayList<String> salas) throws Exception
 	{
 		if(salas == null)
 			throw new Exception("Objeto de Salas é null");
@@ -10,16 +12,8 @@ public class SalasDisponiveis implements Enviavel
 		this.salas = salas;
 	}
 
-	public int getQtdSalas()
+	public ArrayList<String> getNomeSala()
 	{
-		return this.salas.getQtdSalas();
-	}
-
-	public String getNomeSala(int index) throws Exception
-	{
-		if(index < 0 || index >= this.getQtdSalas())
-			throw new Exception("index inválido");
-
-		return this.salas.getNomeSala(index);
+		return this.salas;
 	}
 }
