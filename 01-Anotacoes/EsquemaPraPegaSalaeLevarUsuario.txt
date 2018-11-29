@@ -1,0 +1,1 @@
+Janela-->NomeDaSala-->CuidadoraDeUsuario reconhece a sala--> leva Usuario--> para a Sala
