@@ -24,25 +24,20 @@ public class Janela
 	private ObjectInputStream receptor;
 
 
-	//objetos do primeiro panel que abre
-	private JLabel Salas = new JLabel("Escolha uma Sala:");
-	private JComboBox escolhaSala = new JComboBox();
-
-
-
 
 	private class TratadorDeRedimensionamento implements ComponentListener
 		{
 			public void componentResized(ComponentEvent e)
 			{
-
 				Font fonte = new Font("Times New Roman", Font.PLAIN, Math.min(janela.getHeight(),janela.getWidth())*22/950);
-
-				btnEnviar.setFont (fonte);
+				btnEnviar.setFont(fonte);
 				btnSair.setFont(fonte);
 				btnSalasDisp.setFont(fonte);
 				btnTeste.setFont(fonte);
 				lblNomeUsuario.setFont(fonte);
+				ok.setFont(fonte);
+				Salas.setFont(fonte);
+				escolhaSala.setFont(fonte);
 			}
 
 			public void componentMoved(java.awt.event.ComponentEvent e)
@@ -118,8 +113,7 @@ public class Janela
 		painelNorte.add(lblNomeUsuario);
 		painelNorte.add(btnSalasDisp);
 
-		this.janela.setSize (900,800);
-		this.janela.getContentPane().setLayout(new BorderLayout());
+
 
 		this.janela.add(painelSul,BorderLayout.SOUTH);
 		this.janela.add(painelNorte,BorderLayout.NORTH);
@@ -128,16 +122,34 @@ public class Janela
 		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
 	}
 
+
+	//objetos do primeiro panel que abre
+	private JLabel Salas = new JLabel("Escolha uma Sala:");
+	private JComboBox escolhaSala = new JComboBox();
+	private JButton ok = new JButton();
+
 	private void design()
 	{
+
 		JPanel painelEscolhaDeSala = new JPanel();
 		painelEscolhaDeSala.setLayout(new FlowLayout());
 
 
+		ok.setText("OK");
 
-			this.janela.addComponentListener (new TratadorDeRedimensionamento());
-			this.janela.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-			this.janela.setVisible(true);
+
+		painelEscolhaDeSala.add(Salas);
+		painelEscolhaDeSala.add(escolhaSala);
+		painelEscolhaDeSala.add(ok);
+
+		this.janela.setSize(900,800);
+		this.janela.getContentPane().setLayout(new BorderLayout());
+
+		this.janela.add(painelEscolhaDeSala,BorderLayout.CENTER);
+
+		this.janela.addComponentListener (new TratadorDeRedimensionamento());
+		this.janela.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		this.janela.setVisible(true);
 	}
 	/*
 	public void mostra(String textoR)
@@ -146,3 +158,8 @@ public class Janela
 	}
 	*/
 }
+
+
+
+
+//this.janela.remove       --> elimina o objeto em questão
