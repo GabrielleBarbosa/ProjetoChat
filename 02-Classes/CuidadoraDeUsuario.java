@@ -115,7 +115,7 @@ public class CuidadoraDeUsuario extends Thread
 			}
 		}
 
-		ArrayList<String> listaUsuariosSala = new ArrayList<String>(sala.getQtdOcupado());
+		ArrayList<String> listaUsuariosSala = new ArrayList<String>(sala.getQtdMax());
 
 		for(int i=0; i<sala.getQtdOcupado(); i++)
 			listaUsuariosSala.add(sala.getUsuario(i).getNome());

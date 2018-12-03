@@ -15,7 +15,7 @@ public class Janela
 	private JLabel lblNomeUsuario = new JLabel();  //label com o nome do fudido
 	private JButton btnEnviar = new JButton();	//envia mensagem
 	private JButton btnSair = new JButton();	//sair da sala atual
-	private JButton btnSalasDisp = new JButton();
+	private JButton btnUsuariosDisp = new JButton();
 	private JButton btnTeste = new JButton();  //ete botao deve ser apagado antes de enviar o projeto
 	private Socket conexao;
 	private ObjectOutputStream transmissor;
@@ -31,7 +31,7 @@ public class Janela
 				Font fonte = new Font("Times New Roman", Font.PLAIN, Math.min(janela.getHeight(),janela.getWidth())*22/600);
 				btnEnviar.setFont(fonte);
 				btnSair.setFont(fonte);
-				btnSalasDisp.setFont(fonte);
+				btnUsuariosDisp.setFont(fonte);
 				btnTeste.setFont(fonte);
 				lblNomeUsuario.setFont(fonte);
 				btnOK.setFont(fonte);
@@ -108,8 +108,11 @@ public class Janela
 		this.janela.setVisible(true);
 	}
 
-	public void mostrarSalas(ArrayList<String> salas)
+	public void mostrarSalas(ArrayList<String> salas)throws Exception
 	{
+		if(salas == null)
+			throw new Exception("ArrayList de salas passada é null");
+
 		for(int i=0; i<salas.size();i++)
 			escolhaSala.addItem(salas.get(i));
 	}
@@ -145,8 +148,8 @@ public class Janela
 		JPanel painelNorte = new JPanel();
 		painelNorte.setLayout(new GridLayout(1,2));
 
-		JPanel painelSalas = new JPanel();
-		painelSalas.setLayout(new GridLayout(50,1));
+		JPanel painelUsuarios = new JPanel();
+		painelUsuarios.setLayout(new GridLayout(50,1));
 
 		JPanel painelConversas = new JPanel();
 		painelConversas.setLayout(new GridLayout(50,1));
@@ -155,7 +158,7 @@ public class Janela
 
 		this.janela.add(painelSul,BorderLayout.SOUTH);
 		this.janela.add(painelNorte,BorderLayout.NORTH);
-		this.janela.add(painelSalas,BorderLayout.EAST);
+		this.janela.add(painelUsuarios,BorderLayout.EAST);
 		this.janela.add(painelConversas,BorderLayout.WEST);
 		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
 
@@ -168,7 +171,7 @@ public class Janela
 		this.btnSair.setText("Sair");
 		//this.btnSair.addActionListener(tratador);
 
-		this.btnSalasDisp.setText("Salas");
+		this.btnUsuariosDisp.setText("usuários");
 		//this.btnSair.addActionListener(tratador);
 
 
@@ -177,9 +180,7 @@ public class Janela
 
 		painelNorte.add(btnSair);
 		painelNorte.add(lblNomeUsuario);
-		painelNorte.add(btnSalasDisp);
-
-
+		painelNorte.add(btnUsuariosDisp);
 	}
 
 	/*
@@ -193,6 +194,7 @@ public class Janela
 	{
 		public void trateClickNoBotaoOK()
 		{
+			mostrarEscolhaDeNome();
 			String s = escolhaSala.getSelectedItem()+"";
 			//transmissor.writeObject(new EscolhaDeSala(s));
 			//transmissor.flush;
@@ -201,6 +203,10 @@ public class Janela
 		public void trateClickNoBotaoConfirmar()
 		{
 			String s = txtEscrevaNome.getText();
+
+			usuarios.add("eu");
+			usuarios.add("ele");
+			mostrarDesingDeChat(usuarios);
 
 			if(s == null || s.trim().equals(""))
 			{
