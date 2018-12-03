@@ -20,8 +20,6 @@ public class Cliente //instancia janela
 			salas.add("boa tarde");
 			janela.mostrarSalas(salas);
 
-			janela.mostrarAvisoDeSalaCheia();
-
 			/*for(;;)
 			{
 				Enviavel recebido = receptor.readObject();
@@ -30,10 +28,10 @@ public class Cliente //instancia janela
 				   janela.mostrarSalas(((SalasDisponiveis)recebido).getNomeSala());
 
 					else if(recebido instanceof AvisoDeSalaCheia)
-						janela.mostrarAvisoDeSalaCheia();
+						janela.mostrarAvisoDeErro("A sala escolhida está cheia!");
 
 						else if(recebido instanceof AvisoDeSalaInvalida)
-							janela.mostrarAvisoDeSalaInvalida();
+							janela.mostrarAvisoDeErro("A sala escolhida é inválida!");
 
 							else if(recebido instanceof AvisoDeSalaEscolhidaComSucesso)
 								break;
@@ -48,23 +46,28 @@ public class Cliente //instancia janela
 					break;
 
 				else if (recebido instanceof AvisoDeNomeExistente)
-					janela.mostrarAvisoDeNomeExistente();
+					janela.mostrarAvisoDeErro("O nome escolhido já está sendo usado na sala");
 			}
 
-			janela.mostrarDesingDeChat();
+			Enviavel recebido = receptor.readObject();
 
-			for(;;)
+			if(recebido instanceof UsuariosNaSala)
 			{
-				Enviavel recebido = receptor.readObject();
+				janela.mostrarDesingDeChat(((UsuariosNaSala)receptor).getUsuarios());
 
-				if(recebido instanceof Mensagem)
-					janela.mostra(((Mensagem)recebido).getMensagem());
+				for(;;)
+				{
+					Enviavel recebido = receptor.readObject();
 
-				else if(recebido instanceof AvisoDeEntradaNaSala)
-					janela.mostraEntrada(((AvisoDeEntradaNaSala)recebido).getRemetente());
+					if(recebido instanceof Mensagem)
+						janela.mostra(((Mensagem)recebido).getMensagem());
 
-				else if(recebido instanceof AvisoDeSaidaDaSala)
-					janela.mostraSaida(((AvisoDeSaidaDaSala)recebido).getRemetente());
+					else if(recebido instanceof AvisoDeEntradaNaSala)
+						janela.mostraEntrada(((AvisoDeEntradaNaSala)recebido).getRemetente());
+
+					else if(recebido instanceof AvisoDeSaidaDaSala)
+						janela.mostraSaida(((AvisoDeSaidaDaSala)recebido).getRemetente());
+				}
 			}*/
 	    }
 	    catch(Exception err)

@@ -87,7 +87,10 @@ public class CuidadoraDeUsuario extends Thread
 					if(sala.isCheia())
 					   OOS.writeObject(new AvisoDeSalaCheia());
 					else
+					{
+						OOS.writeObject(new AvisoDeSalaEscolhidaComSucesso());
 						break;
+					}
 				}
 
 			}
@@ -105,9 +108,20 @@ public class CuidadoraDeUsuario extends Thread
 				if(sala.existeNome(nome))
 					OOS.writeObject(new AvisoDeNomeExistente());
 				else
+				{
+					OOS.writeObject(new AvisoDeNomeEscolhidoComSucesso());
 					break;
+				}
 			}
 		}
+
+		ArrayList<String> listaUsuariosSala = new ArrayList<String>(sala.getQtdOcupado());
+
+		for(int i=0; i<sala.getQtdOcupado(); i++)
+			listaUsuariosSala.add(sala.getUsuario(i).getNome());
+
+		OOS.writeObject(new UsuariosNaSala(listaUsuariosSala));
+
 		// instanciar um Usuario, fornecendo conexao, OOS, OIS, sala e nome
 		usuario = new Usuario(nome,conexao,sala,OOS,OIS);
 

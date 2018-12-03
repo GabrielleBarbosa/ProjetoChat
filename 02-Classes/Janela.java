@@ -20,6 +20,7 @@ public class Janela
 	private Socket conexao;
 	private ObjectOutputStream transmissor;
 	private ObjectInputStream receptor;
+	private ArrayList usuarios;
 
 
 
@@ -72,12 +73,72 @@ public class Janela
 			design();
 	}
 
+	//objetos do primeiro panel que abre
+	private JLabel lblSalas = new JLabel("Escolha uma Sala:");
+	private JLabel lblAvisoErros = new JLabel();
+	private JLabel lblSeuNome = new JLabel("Escolha um Nome:");
+	private JComboBox escolhaSala = new JComboBox();
+	private JButton btnOK = new JButton();
+	private JPanel painelEscolhaDeSala = new JPanel();
+	private JPanel painelEscolhaDeNome = new JPanel();
+	private JPanel painelErros = new JPanel();
+	private JTextField txtEscrevaNome = new JTextField();
+	/////////////////////////////////////////////////////
 
-
-
-
-	private void Criacao()
+	private void design()
 	{
+		btnOK.setText("OK");
+		TratadorDeEvento tratador = new TratadorDeEvento();
+        btnOK.addActionListener(tratador);
+
+		painelEscolhaDeSala.add(lblSalas);
+		painelEscolhaDeSala.add(escolhaSala);
+		painelEscolhaDeSala.add(btnOK);
+		painelErros.add(lblAvisoErros);
+
+		this.janela.setSize(600,500);
+		this.janela.getContentPane().setLayout(new BorderLayout());
+
+		this.janela.add(painelEscolhaDeSala,BorderLayout.NORTH);
+		this.janela.add(painelErros,BorderLayout.SOUTH);
+		this.janela.add(painelEscolhaDeNome,BorderLayout.CENTER);
+
+		this.janela.addComponentListener (new TratadorDeRedimensionamento());
+		this.janela.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		this.janela.setVisible(true);
+	}
+
+	public void mostrarSalas(ArrayList<String> salas)
+	{
+		for(int i=0; i<salas.size();i++)
+			escolhaSala.addItem(salas.get(i));
+	}
+
+	public void mostrarAvisoDeErro(String erro)
+	{
+		lblAvisoErros.setText(erro);
+	}
+
+	public void mostrarEscolhaDeNome()
+	{
+		lblAvisoErros.setText("");
+		escolhaSala.setEnabled(false);
+		btnOK.setText("Confirmar");
+		painelEscolhaDeSala.remove(btnOK);
+		painelEscolhaDeNome.add(lblSeuNome);
+		painelEscolhaDeNome.add(txtEscrevaNome);
+		painelEscolhaDeNome.add(btnOK);
+		txtEscrevaNome.setColumns(10);
+	}
+
+	public void mostrarDesingDeChat(ArrayList usuarios)
+	{
+		this.usuarios = usuarios;
+
+		janela.remove(painelErros);
+		janela.remove(painelEscolhaDeNome);
+		janela.remove(painelEscolhaDeSala);
+
 		JPanel painelSul = new JPanel();
 		painelSul.setLayout (new GridLayout(1,2));
 
@@ -89,6 +150,14 @@ public class Janela
 
 		JPanel painelConversas = new JPanel();
 		painelConversas.setLayout(new GridLayout(50,1));
+
+
+
+		this.janela.add(painelSul,BorderLayout.SOUTH);
+		this.janela.add(painelNorte,BorderLayout.NORTH);
+		this.janela.add(painelSalas,BorderLayout.EAST);
+		this.janela.add(painelConversas,BorderLayout.WEST);
+		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
 
 		//TratadorDeEvento tratador = new TratadorDeEvento();
 
@@ -111,71 +180,6 @@ public class Janela
 		painelNorte.add(btnSalasDisp);
 
 
-
-		this.janela.add(painelSul,BorderLayout.SOUTH);
-		this.janela.add(painelNorte,BorderLayout.NORTH);
-		this.janela.add(painelSalas,BorderLayout.EAST);
-		this.janela.add(painelConversas,BorderLayout.WEST);
-		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
-	}
-
-	//objetos do primeiro panel que abre
-	private JLabel lblSalas = new JLabel("Escolha uma Sala:");
-	private JLabel lblAvisoErros = new JLabel("A sala escolhida se encontra cheia!");
-	private JLabel lblSeuNome = new JLabel("Escolha um Nome:");
-	private JComboBox escolhaSala = new JComboBox();
-	private JButton btnOK = new JButton();
-	private JPanel painelEscolhaDeSala = new JPanel();
-	private JPanel painelEscolhaDeNome = new JPanel();
-	private JTextArea txtEscrevaNome = new JTextArea();
-	/////////////////////////////////////////////////////
-
-	private void design()
-	{
-
-		painelEscolhaDeSala.setLayout(new FlowLayout());
-
-		btnOK.setText("OK");
-		TratadorDeEvento  tratador = new TratadorDeEvento();
-        btnOK.addActionListener(tratador);
-
-		painelEscolhaDeSala.add(lblSalas);
-		painelEscolhaDeSala.add(escolhaSala);
-		painelEscolhaDeSala.add(btnOK);
-
-		this.janela.setSize(600,500);
-		this.janela.getContentPane().setLayout(new BorderLayout());
-
-		this.janela.add(painelEscolhaDeSala,BorderLayout.NORTH);
-		this.janela.add(painelEscolhaDeNome,BorderLayout.CENTER);
-
-		this.janela.addComponentListener (new TratadorDeRedimensionamento());
-		this.janela.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		this.janela.setVisible(true);
-	}
-
-
-	public void mostrarSalas(ArrayList<String> salas)
-	{
-		for(int i=0; i<salas.size();i++)
-			escolhaSala.addItem(salas.get(i));
-	}
-
-	public void mostrarAvisoDeSalaCheia()
-	{
-		painelEscolhaDeNome.add(lblAvisoErros);
-	}
-
-	public void mostrarEscolhaDeNome()
-	{
-		escolhaSala.setEnabled(false);
-		btnOK.setText("Confirmar");
-		painelEscolhaDeSala.remove(btnOK);
-		painelEscolhaDeNome.remove(lblAvisoErros);
-		painelEscolhaDeNome.add(lblSeuNome);
-		painelEscolhaDeNome.add(txtEscrevaNome);
-		painelEscolhaDeNome.add(btnOK);
-		txtEscrevaNome.setColumns(10);
 	}
 
 	/*
@@ -189,7 +193,6 @@ public class Janela
 	{
 		public void trateClickNoBotaoOK()
 		{
-			mostrarEscolhaDeNome();
 			String s = escolhaSala.getSelectedItem()+"";
 			//transmissor.writeObject(new EscolhaDeSala(s));
 			//transmissor.flush;
@@ -198,8 +201,16 @@ public class Janela
 		public void trateClickNoBotaoConfirmar()
 		{
 			String s = txtEscrevaNome.getText();
-			//transmissor.writeObject(new EscolhaDeSala(s));
-			//transmissor.flush;
+
+			if(s == null || s.trim().equals(""))
+			{
+				mostrarAvisoDeErro("Digite seu nome!");
+			}
+			else
+			{
+				//transmissor.writeObject(new EscolhaDeSala(s));
+				//transmissor.flush;
+			}
 		}
 
 
