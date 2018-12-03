@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import javax.swing.text.StyledDocument;
 
 //TUDO QUE ESTÁ COMENTADO É PORQUE PODE MUDAR OU QUE NÃO HÁ CERTEZA DA UTILIZAÇÃO
 public class Janela
@@ -11,16 +12,18 @@ public class Janela
 	// O QUE DECLARAR?
 	private JFrame janela = new JFrame("Sala");
 	private JTextField txtEnvia = new JTextField();
-	private JTextArea AreaDeConversa = new JTextArea();	//Área na qual são escritas as mensagens
-	private JLabel lblNomeUsuario = new JLabel();  //label com o nome do fudido
+	private JTextPane txtAreaDeConversa = new JTextPane();	//Área na qual são escritas as mensagens
+	private StyledDocument doc = txtAreaDeConversa.getStyledDocument();
+	private JLabel lblNomeSala = new JLabel("Sala: ");  //label com o nome do fudido
 	private JButton btnEnviar = new JButton();	//envia mensagem
 	private JButton btnSair = new JButton();	//sair da sala atual
-	private JButton btnUsuariosDisp = new JButton();
+	private JLabel lblUsuariosDisp = new JLabel("Usuários: ");
+	private JComboBox cbxUsuariosDisp = new JComboBox();
 	private JButton btnTeste = new JButton();  //ete botao deve ser apagado antes de enviar o projeto
 	private Socket conexao;
 	private ObjectOutputStream transmissor;
 	private ObjectInputStream receptor;
-	private ArrayList usuarios;
+	private ArrayList<String> usuarios;
 
 
 
@@ -29,11 +32,12 @@ public class Janela
 			public void componentResized(ComponentEvent e)
 			{
 				Font fonte = new Font("Times New Roman", Font.PLAIN, Math.min(janela.getHeight(),janela.getWidth())*22/600);
+				Font fonte2 = new Font("Candara", Font.PLAIN, Math.min(janela.getHeight(),janela.getWidth())*30/600);
 				btnEnviar.setFont(fonte);
 				btnSair.setFont(fonte);
-				btnUsuariosDisp.setFont(fonte);
+				lblUsuariosDisp.setFont(fonte);
 				btnTeste.setFont(fonte);
-				lblNomeUsuario.setFont(fonte);
+				lblNomeSala.setFont(fonte2);
 				btnOK.setFont(fonte);
 				lblSalas.setFont(fonte);
 				escolhaSala.setFont(fonte);
@@ -58,7 +62,7 @@ public class Janela
 			String textoE = txtEnvia.getText();
 			transmissor.println(textoE);
 			transmissor.flush();
-			AreaDeConversa.append("Você: "+textoE+"\n");
+			txtAreaDeConversa.append("Você: "+textoE+"\n");
 			txtEnvia.setText("");
 		}
 	}
@@ -134,13 +138,25 @@ public class Janela
 		txtEscrevaNome.setColumns(10);
 	}
 
-	public void mostrarDesingDeChat(ArrayList usuarios)
+	public void mostrarDesingDeChat(ArrayList<String> usuarios)
 	{
-		this.usuarios = usuarios;
-
 		janela.remove(painelErros);
 		janela.remove(painelEscolhaDeNome);
 		janela.remove(painelEscolhaDeSala);
+
+		this.usuarios = usuarios;
+
+		for(int i=0; i<this.usuarios.size(); i++)
+			cbxUsuariosDisp.addItem(this.usuarios.get(i));
+
+		JPanel painelLeste = new JPanel();
+		painelLeste.setBorder(javax.swing.BorderFactory.createTitledBorder("Conversas privadas"));
+		painelLeste.setLayout(new BorderLayout());
+
+		JPanel painelOeste = new JPanel();
+		painelOeste.setBorder(javax.swing.BorderFactory.createTitledBorder("Conversas públicas"));
+		painelOeste.setLayout(new BorderLayout());
+
 
 		JPanel painelSul = new JPanel();
 		painelSul.setLayout (new GridLayout(1,2));
@@ -149,18 +165,20 @@ public class Janela
 		painelNorte.setLayout(new GridLayout(1,2));
 
 		JPanel painelUsuarios = new JPanel();
-		painelUsuarios.setLayout(new GridLayout(50,1));
+		painelUsuarios.setLayout(new GridLayout(1,2));
 
 		JPanel painelConversas = new JPanel();
-		painelConversas.setLayout(new GridLayout(50,1));
+		painelConversas.setLayout(new GridLayout(20,1));
 
+		painelLeste.add(painelUsuarios,BorderLayout.NORTH);
 
+		painelOeste.add(painelSul,BorderLayout.SOUTH);
+		painelOeste.add(painelNorte,BorderLayout.NORTH);
+		painelOeste.add(txtAreaDeConversa, BorderLayout.CENTER);
 
-		this.janela.add(painelSul,BorderLayout.SOUTH);
-		this.janela.add(painelNorte,BorderLayout.NORTH);
-		this.janela.add(painelUsuarios,BorderLayout.EAST);
-		this.janela.add(painelConversas,BorderLayout.WEST);
-		this.janela.add(AreaDeConversa, BorderLayout.CENTER);
+		this.janela.add(painelLeste,BorderLayout.EAST);
+		this.janela.add(painelOeste,BorderLayout.CENTER);
+
 
 		//TratadorDeEvento tratador = new TratadorDeEvento();
 
@@ -171,24 +189,51 @@ public class Janela
 		this.btnSair.setText("Sair");
 		//this.btnSair.addActionListener(tratador);
 
-		this.btnUsuariosDisp.setText("usuários");
-		//this.btnSair.addActionListener(tratador);
-
 
 		painelSul.add(txtEnvia);
 		painelSul.add(btnEnviar);
 
-		painelNorte.add(btnSair);
-		painelNorte.add(lblNomeUsuario);
-		painelNorte.add(btnUsuariosDisp);
+		//painelNorte.add(btnSair);
+		painelNorte.add(lblNomeSala);
+
+		painelUsuarios.add(lblUsuariosDisp);
+		painelUsuarios.add(cbxUsuariosDisp);
 	}
 
-	/*
-	public void mostra(String textoR, String remetente)
+	public void mostra(String textoR, String remetente)throws Exception
 	{
-		AreaDeConversa.append(remetente + ": " + textoR + "\n");
+		System.out.println("aaaaaaaaaa");
+
+		if(remetente == null || remetente.trim().equals(""))
+			throw new Exception("remetente null");
+
+		if(textoR == null || textoR.trim().equals(""))
+			throw new Exception("texto null");
+
+		//txtAreaDeConversa.append(remetente + ": " + textoR + "\n");
+		doc.insertString(doc.getLength(), remetente + ": " + textoR + "\n",
+                         doc.getStyle("color: pink;"));
 	}
-	*/
+
+	public void mostraEntrada(String remetente)throws Exception
+	{
+		if(remetente == null || remetente.trim().equals(""))
+			throw new Exception("remetente null");
+
+		//txtAreaDeConversa.append(remetente + " entrou na sala!");
+		doc.insertString(doc.getLength(), remetente + " entrou na sala!",
+				 doc.getStyle("color: green;"));
+	}
+
+	public void mostraSaida(String remetente)throws Exception
+	{
+		if(remetente == null || remetente.trim().equals(""))
+			throw new Exception("remetente null");
+
+		//txtAreaDeConversa.append(remetente + " saiu na sala!");
+		doc.insertString(doc.getLength(), remetente + " saiu na sala!",
+				 doc.getStyle("color: red;"));
+	}
 
 	private class TratadorDeEvento implements ActionListener
 	{
@@ -204,25 +249,47 @@ public class Janela
 		{
 			String s = txtEscrevaNome.getText();
 
+			usuarios = new ArrayList<String>(6);
 			usuarios.add("eu");
 			usuarios.add("ele");
-			mostrarDesingDeChat(usuarios);
 
 			if(s == null || s.trim().equals(""))
 			{
+				System.out.println("ccccccc");
 				mostrarAvisoDeErro("Digite seu nome!");
 			}
 			else
 			{
+				mostrarDesingDeChat(usuarios);
 				//transmissor.writeObject(new EscolhaDeSala(s));
 				//transmissor.flush;
 			}
+		}
+
+		public void trateClickNoBotaoEnviar()
+		{
+			System.out.println("aaa");
+			String s = txtEnvia.getText();
+
+			try
+			{
+				if(s != null || !(s.trim().equals("")))
+				{
+					System.out.println("aaaaa");
+					mostra(s, "Você");
+					//transmissor.writeObject(new Mensagem());
+					//transmissor.flush;
+				}
+			}
+			catch(Exception err)
+			{}
 		}
 
 
 		public void actionPerformed (ActionEvent e)
 		{
 			String comando = e.getActionCommand();
+
 			if(comando == "OK")
 			{
 				trateClickNoBotaoOK();
@@ -230,6 +297,10 @@ public class Janela
 			if(comando == "Confirmar")
 			{
 				trateClickNoBotaoConfirmar();
+			}
+			if(comando == "Enviar")
+			{
+				trateClickNoBotaoEnviar();
 			}
 
 		}
