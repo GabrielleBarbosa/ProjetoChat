@@ -74,6 +74,7 @@ public class Janela
 	private JLabel lblSalas = new JLabel("Escolha uma Sala:");
 	private JLabel lblAvisoErros = new JLabel();
 	private JLabel lblSeuNome = new JLabel("Escolha um Nome:");
+	private JLabel lblTitulo = new JLabel("Escolha sua sala!!");
 	private JComboBox escolhaSala = new JComboBox();
 	private JButton btnOK = new JButton();
 	private JPanel painelEscolhaDeSala = new JPanel();
@@ -99,7 +100,6 @@ public class Janela
 		this.janela.setSize(600,500);
 		this.janela.getContentPane().setLayout(new BorderLayout());
 
-		JLabel lblTitulo = new JLabel("Escolha sua sala!!");
 		lblTitulo.setFont(new Font("Candara", Font.PLAIN, 30));
 
 		painelEscolhas.add(painelEscolhaDeSala);
@@ -150,6 +150,7 @@ public class Janela
 		lblNomeSala.setText("Sala: " + escolhaSala.getSelectedItem());
 		janela.remove(painelErros);
 		janela.remove(painelEscolhas);
+		janela.remove(lblTitulo);
 
 		this.usuarios = usuarios;
 
@@ -264,12 +265,18 @@ public class Janela
 
 	private class TratadorDeEvento implements ActionListener
 	{
+
 		public void trateClickNoBotaoOK()
 		{
-			mostrarEscolhaDeNome();
-			String s = escolhaSala.getSelectedItem()+"";
-			this.transmissor.writeObject(new EscolhaDeSala(s));
-			this.transmissor.flush();
+			try
+			{
+				mostrarEscolhaDeNome();
+				String s = escolhaSala.getSelectedItem()+"";
+				transmissor.writeObject(new EscolhaDeSala(s));
+				transmissor.flush();
+			}
+			catch(Exception err)
+			{}
 		}
 
 		public void trateClickNoBotaoConfirmar()
@@ -291,9 +298,14 @@ public class Janela
 			}
 			else
 			{
-				mostrarDesignDeChat(usuarios);
-				this.transmissor.writeObject(new EscolhaDeSala(s));
-				this.transmissor.flush();
+				try
+				{
+					mostrarDesignDeChat(usuarios);
+					transmissor.writeObject(new EscolhaDeSala(s));
+					transmissor.flush();
+				}
+				catch(Exception err)
+				{}
 			}
 		}
 
@@ -307,8 +319,8 @@ public class Janela
 				if(s != null || !(s.trim().equals("")))
 				{
 					mostra(s, "Você");
-					this.transmissor.writeObject(new Mensagem());
-					this.transmissor.flush();
+					transmissor.writeObject(new Mensagem());
+					transmissor.flush();
 					txtEnviar.setText("");
 				}
 			}
@@ -326,8 +338,8 @@ public class Janela
 				{
 					mostraSaida("eu");
 					mostraPriv(s, "Você(para: " + cbxUsuariosDisp.getSelectedItem() + ")");
-					this.transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + ""));
-					this.transmissor.flush();
+					transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + "", lblNomeUsuario.getText(),s));
+					transmissor.flush();
 					txtEnviarPriv.setText("");
 				}
 			}
@@ -339,10 +351,10 @@ public class Janela
 		{
 			try
 			{
-				this.transmissor.writeObject(new PedidoParaSairDaSala());
-				this.transmissor.flush();
-				this.conexao.close();
-				this.transmissor.close();
+				transmissor.writeObject(new PedidoParaSairDaSala());
+				transmissor.flush();
+				conexao.close();
+				transmissor.close();
 			}
 			catch(Exception err)
 			{}

@@ -11,16 +11,16 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			//Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
+			Socket conexao = new Socket("177.220.18.109",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
-			Janela janela = new Janela(/*conexao*/);
-			ArrayList<String> salas = new ArrayList(6);
-			salas.add("oi");
-			salas.add("tchau");
-			salas.add("boa tarde");
+			Janela janela = new Janela(conexao);
+			//ArrayList<String> salas = new ArrayList(6);
+			//salas.add("oi");
+			//salas.add("tchau");
+			//salas.add("boa tarde");
 
 
-			janela.mostrarSalas(salas);
+			//janela.mostrarSalas(salas);
 
 			ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
 			Enviavel recebido = null;
@@ -57,7 +57,7 @@ public class Cliente //instancia janela
 
 			if(recebido instanceof UsuariosNaSala)
 			{
-				janela.mostrarDesingDeChat(((UsuariosNaSala)recebido).getUsuarios());
+				janela.mostrarDesignDeChat(((UsuariosNaSala)recebido).getUsuarios());
 
 				for(;;)
 				{
