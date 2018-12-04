@@ -15,6 +15,7 @@ public class Salas
 	public void adicionarSala(Sala sala)
 	{
 		listaSalas.add(sala);
+		this.qtdSalas++;
 	}
 
 	public boolean existeSala (String nome)

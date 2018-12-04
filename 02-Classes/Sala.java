@@ -4,18 +4,16 @@ public class Sala
 {
 	protected ArrayList<Usuario> listaUsuarios;
 	protected String nome;
-	protected String tema;
 	protected int cod;
 	protected int qtdMax;
 	protected int qtdOcupado;
 
-	public Sala(String n, int q, String t, int c)
+	public Sala(String n, int q, int c)
 	{
 		this.listaUsuarios = new ArrayList<Usuario>(q);
 		this.nome = n;
 		this.cod = c;
 		this.qtdMax = q;
-		this.tema = t;
 		this.qtdOcupado = this.listaUsuarios.size();
 	}
 
@@ -32,11 +30,6 @@ public class Sala
 	public String getNome()
 	{
 		return this.nome;
-	}
-
-	public String getTema()
-	{
-		return this.tema;
 	}
 
 	public int getQtdMax()
@@ -144,8 +137,6 @@ public class Sala
 		ret = ret*2 + new Integer(this.qtdMax).hashCode();
 
 		ret = ret*2 + this.nome.hashCode();
-
-		ret = ret*2 + this.tema.hashCode();
 
 		ret = ret*2 + this.listaUsuarios.hashCode();
 
