@@ -9,7 +9,7 @@ public class Salas
 	public Salas()
 	{
 		listaSalas = new ArrayList<Sala>();
-		this.qtdSalas = this.listaSalas.size();
+		this.qtdSalas = 0;
 	}
 
 	public void adicionarSala(Sala sala)
@@ -18,10 +18,10 @@ public class Salas
 		this.qtdSalas++;
 	}
 
-	public boolean existeSala (String nome)
+	public boolean existeSala(String nome)throws Exception
 	{
-		for(int i=0; i<listaSalas.size();i++)
-			if(listaSalas.get(i).getNome() == nome)
+		for(int i=0; i<this.qtdSalas;i++)
+			if(this.getSala(i).getNome().trim().equals(nome.trim()))
 				return true;
 
 		return false;
@@ -30,7 +30,7 @@ public class Salas
 	public Sala getSala(String nome) throws Exception
 	{
 		for(int i=0; i<listaSalas.size();i++)
-			if(listaSalas.get(i).getNome() == nome)
+			if(this.getSala(i).getNome().trim().equals(nome.trim()))
 				return listaSalas.get(i);
 
 		throw new Exception("Nome de sala inexistente");

@@ -29,6 +29,7 @@ public class Janela
 	private ObjectOutputStream transmissor;
 	private ObjectInputStream receptor;
 	private ArrayList<String> usuarios;
+	private String nomeUsuario;
 
 
 
@@ -146,6 +147,7 @@ public class Janela
 
 	public void mostrarDesignDeChat(ArrayList<String> usuarios)
 	{
+		nomeUsuario = txtEscrevaNome.getText().trim();
 		lblNomeUsuario.setText("Bem Vindo, " + txtEscrevaNome.getText());
 		lblNomeSala.setText("Sala: " + escolhaSala.getSelectedItem());
 		janela.remove(painelErros);
@@ -215,6 +217,12 @@ public class Janela
 
 		txtAreaDeConversa.setEditable(false);
 		txtAreaDeConversaPriv.setEditable(false);
+
+		if(this.usuarios.size() == 0)
+		{
+			txtEnviarPriv.setEnabled(false);
+			btnEnviarPriv.setEnabled(false);
+		}
 	}
 
 	public void mostra(String textoR, String remetente)throws Exception
@@ -249,7 +257,23 @@ public class Janela
 		doc.insertString(doc.getLength(), remetente + " entrou na sala!\n",
 				 doc.getStyle("bold"));
 
-		this.cbxUsuariosDisp.addItem(remetente);
+		if(this.usuarios.size() > 0)
+		{
+			for(int i=0; i<this.usuarios.size();i++)
+				if(!(this.usuarios.get(i).equals(remetente.trim())))
+				{
+					this.cbxUsuariosDisp.addItem(remetente);
+					this.usuarios.add(remetente);
+				}
+		}
+		else
+		{
+			this.cbxUsuariosDisp.addItem(remetente);
+			this.usuarios.add(remetente);
+		}
+
+		txtEnviarPriv.setEnabled(true);
+		btnEnviarPriv.setEnabled(true);
 	}
 
 	public void mostraSaida(String remetente)throws Exception
@@ -257,10 +281,20 @@ public class Janela
 		if(remetente == null || remetente.trim().equals(""))
 			throw new Exception("remetente null");
 
-		doc.insertString(doc.getLength(), remetente + " saiu na sala!\n",
+		doc.insertString(doc.getLength(), remetente + " saiu da sala!\n",
 				 doc.getStyle("color: red;"));
 
 	    this.cbxUsuariosDisp.removeItem(remetente);
+
+	    for(int i=0; i<usuarios.size(); i++)
+	    	if(usuarios.get(i).equals(remetente.trim()))
+	    		usuarios.remove(i);
+
+	    if(this.usuarios.size() == 0)
+		{
+			txtEnviarPriv.setEnabled(false);
+			btnEnviarPriv.setEnabled(false);
+		}
 	}
 
 	private class TratadorDeEvento implements ActionListener
@@ -283,10 +317,6 @@ public class Janela
 		{
 			String s = txtEscrevaNome.getText();
 
-			usuarios = new ArrayList<String>(6);
-			usuarios.add("eu");
-			usuarios.add("ele");
-
 			if(s == null || s.trim().equals(""))
 			{
 				try
@@ -300,8 +330,8 @@ public class Janela
 			{
 				try
 				{
-					mostrarDesignDeChat(usuarios);
-					transmissor.writeObject(new EscolhaDeSala(s));
+					//mostrarDesignDeChat(usuarios);
+					transmissor.writeObject(new EscolhaDeNome(s));
 					transmissor.flush();
 				}
 				catch(Exception err)
@@ -311,7 +341,6 @@ public class Janela
 
 		public void trateClickNoBotaoEnviar()
 		{
-			System.out.println("aaa");
 			String s = txtEnviar.getText();
 
 			try
@@ -319,7 +348,8 @@ public class Janela
 				if(s != null || !(s.trim().equals("")))
 				{
 					mostra(s, "Você");
-					transmissor.writeObject(new Mensagem());
+
+					transmissor.writeObject(new Mensagem(s, nomeUsuario));
 					transmissor.flush();
 					txtEnviar.setText("");
 				}
@@ -336,9 +366,8 @@ public class Janela
 			{
 				if(s != null || !(s.trim().equals("")))
 				{
-					mostraSaida("eu");
 					mostraPriv(s, "Você(para: " + cbxUsuariosDisp.getSelectedItem() + ")");
-					transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + "", lblNomeUsuario.getText(),s));
+					transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + "", nomeUsuario,s));
 					transmissor.flush();
 					txtEnviarPriv.setText("");
 				}

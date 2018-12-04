@@ -69,7 +69,7 @@ public class Sala
 				throw new Exception("Parâmetro null");
 
 			for(int i=0; i<this.qtdOcupado; i++)
-				if(listaUsuarios.get(i).getNome() == nome)
+				if(this.listaUsuarios.get(i).getNome().trim().equals(nome.trim()))
 					return listaUsuarios.get(i);
 
 			throw new Exception("Usuario não consta na sala");
@@ -95,10 +95,10 @@ public class Sala
 		this.qtdOcupado--;
 	}
 
-	public boolean existeNome(String n)
+	public boolean existeNome(String nome)
 	{
-		for(int i=0; i<listaUsuarios.size();i++)
-			if(listaUsuarios.get(i).getNome() == n)
+		for(int i=0; i<this.qtdOcupado;i++)
+			if(this.listaUsuarios.get(i).getNome().trim().equals(nome.trim()))
 				return true;
 
 		return false;

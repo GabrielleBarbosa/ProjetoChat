@@ -11,7 +11,7 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			Socket conexao = new Socket("177.220.18.109",12321);   //ip e porta
+			Socket conexao = new Socket("143.106.200.175",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
 			Janela janela = new Janela(conexao);
 			//ArrayList<String> salas = new ArrayList(6);
@@ -37,7 +37,7 @@ public class Cliente //instancia janela
 						else if(recebido instanceof AvisoDeSalaInvalida)
 							janela.mostrarAvisoDeErro("A sala escolhida é inválida!");
 
-							else if(recebido instanceof AvisoDeSalaEscolhidaComSucesso)
+							else
 								break;
 			}
 
@@ -65,14 +65,23 @@ public class Cliente //instancia janela
 
 					if(recebido instanceof Mensagem)
 					{
-						if(((Mensagem)recebido).getDestinatario() == "")
+						if(((Mensagem)recebido).getDestinatario().equals(""))
+						{
+							System.out.println(((Mensagem)recebido).getRemetente());
 							janela.mostra(((Mensagem)recebido).getMensagem(), ((Mensagem)recebido).getRemetente());
+						}
 						else
+						{
+							System.out.println("ddddddddddd");
 							janela.mostraPriv(((Mensagem)recebido).getMensagem(), ((Mensagem)recebido).getRemetente());
+						}
 					}
 
 					else if(recebido instanceof AvisoDeEntradaNaSala)
+					{
+						System.out.println("eeeeeeeeeee");
 						janela.mostraEntrada(((AvisoDeEntradaNaSala)recebido).getRemetente());
+					}
 
 					else if(recebido instanceof AvisoDeSaidaDaSala)
 						janela.mostraSaida(((AvisoDeSaidaDaSala)recebido).getRemetente());

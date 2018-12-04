@@ -27,13 +27,16 @@ public class CuidadoraDeUsuario extends Thread
 
 				if(recebido instanceof Mensagem)
 				{
-					if(((Mensagem)recebido).getDestinatario() == "")
+					if(((Mensagem)recebido).getDestinatario().equals(""))
+					{
 						for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
-							this.usuario.getSala().getUsuario(i).envia(recebido);
+							if(this.usuario.getSala().getUsuario(i) != this.usuario)
+								this.usuario.getSala().getUsuario(i).envia(recebido);
+					}
 					else
 					{
 						String nomeDestinatario = ((Mensagem)recebido).getDestinatario();
-						usuario.getSala().getUsuario(nomeDestinatario).envia(recebido);
+						this.usuario.getSala().getUsuario(nomeDestinatario).envia(recebido);
 					}
 
 				}
@@ -68,9 +71,9 @@ public class CuidadoraDeUsuario extends Thread
 		for(int i=0; i<salas.getQtdSalas(); i++)
 			listaNomeSalas.add(salas.getSala(i).getNome());
 
+		OOS.writeObject(new SalasDisponiveis(listaNomeSalas));
 		for(;;)
 		{
-			OOS.writeObject(new SalasDisponiveis(listaNomeSalas));
 			Object obj = OIS.readObject();
 
 			if(obj instanceof EscolhaDeSala)
@@ -82,7 +85,6 @@ public class CuidadoraDeUsuario extends Thread
 				else
 				{
 					sala = salas.getSala(s);
-
 					if(sala.isCheia())
 					   OOS.writeObject(new AvisoDeSalaCheia());
 					else
@@ -94,18 +96,19 @@ public class CuidadoraDeUsuario extends Thread
 
 			}
 		}
-
 		String nome;
 		// interagir com o usr via OOS e OIS para(até) descobrir nome desejado, eventualmente informando nome inválido ou já usado
 		for(;;)
 		{
-			Object obj  = OIS.readObject();
+			Object obj = OIS.readObject();
 
-			if(obj instanceof String)
+			if(obj instanceof EscolhaDeNome)
 			{
-				nome = (String)obj;
+				nome = ((EscolhaDeNome)obj).getNome();
 				if(sala.existeNome(nome))
+				{
 					OOS.writeObject(new AvisoDeNomeExistente());
+				}
 				else
 				{
 					OOS.writeObject(new AvisoDeNomeEscolhidoComSucesso());
