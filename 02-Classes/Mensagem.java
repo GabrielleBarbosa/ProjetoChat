@@ -1,13 +1,15 @@
 public class Mensagem implements Enviavel
 {
+	private String remetente;
 	private String destinatario;
 	private String mensagem;
 
-	public Mensagem(String nomeDestinatario, String msg) throws Exception
+	public Mensagem(String nomeDestinatario, String nomeRemetente ,String msg) throws Exception
 	{
-		if(this.destinatario == null || msg == null || msg == "")
+		if(destinatario == null || destinatario == "" || nomeRemetente == null || nomeRemetente == "" || msg == null || msg == "")
 			throw new Exception("Valores não podem ser null");
 
+		this.remetente = nomeRemetente;
 		this.destinatario = nomeDestinatario;
 		this.mensagem = msg;
 	}
@@ -18,6 +20,11 @@ public class Mensagem implements Enviavel
 	}
 
 	public String getDestinatario()
+	{
+		return this.destinatario;
+	}
+
+	public String getRemetente()
 	{
 		return this.destinatario;
 	}

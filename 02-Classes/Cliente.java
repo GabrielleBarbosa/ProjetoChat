@@ -11,7 +11,7 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			//Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
+			Socket conexao = new Socket("123.45.67.89",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
 			Janela janela = new Janela(/*conexao*/);
 			ArrayList<String> salas = new ArrayList(6);
@@ -20,9 +20,11 @@ public class Cliente //instancia janela
 			salas.add("boa tarde");
 			janela.mostrarSalas(salas);
 
-			/*for(;;)
+			ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
+			Enviavel recebido;
+			for(;;)
 			{
-				Enviavel recebido = receptor.readObject();
+				recebido = (Enviavel)receptor.readObject();
 
 				if(recebido instanceof SalasDisponiveis)
 				   janela.mostrarSalas(((SalasDisponiveis)recebido).getNomeSala());
@@ -40,7 +42,7 @@ public class Cliente //instancia janela
 			janela.mostrarEscolhaDeNome();
 			for(;;)
 			{
-				Enviavel recebido = receptor.readObject();
+				recebido = (Enviavel)receptor.readObject();
 
 				if(recebido instanceof AvisoDeNomeEscolhidoComSucesso)
 					break;
@@ -49,18 +51,23 @@ public class Cliente //instancia janela
 					janela.mostrarAvisoDeErro("O nome escolhido já está sendo usado na sala");
 			}
 
-			Enviavel recebido = receptor.readObject();
+			recebido = (Enviavel)receptor.readObject();
 
 			if(recebido instanceof UsuariosNaSala)
 			{
-				janela.mostrarDesingDeChat(((UsuariosNaSala)receptor).getUsuarios());
+				janela.mostrarDesingDeChat(((UsuariosNaSala)recebido).getUsuarios());
 
 				for(;;)
 				{
-					Enviavel recebido = receptor.readObject();
+					recebido = (Enviavel)receptor.readObject();
 
 					if(recebido instanceof Mensagem)
-						janela.mostra(((Mensagem)recebido).getMensagem());
+					{
+						if(((Mensagem)recebido).getDestinatario() == "")
+							janela.mostra(((Mensagem)recebido).getMensagem(), ((Mensagem)recebido).getRemetente());
+						else
+							janela.mostraPriv(((Mensagem)recebido).getMensagem(), ((Mensagem)recebido).getRemetente());
+					}
 
 					else if(recebido instanceof AvisoDeEntradaNaSala)
 						janela.mostraEntrada(((AvisoDeEntradaNaSala)recebido).getRemetente());
@@ -68,7 +75,7 @@ public class Cliente //instancia janela
 					else if(recebido instanceof AvisoDeSaidaDaSala)
 						janela.mostraSaida(((AvisoDeSaidaDaSala)recebido).getRemetente());
 				}
-			}*/
+			}
 	    }
 	    catch(Exception err)
 	    {}
