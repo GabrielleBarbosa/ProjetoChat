@@ -1,2 +1,3 @@
 # ProjetoChat
-Projeto do maligno em que diversos usuários podem se comunicar, contém classes como salas, sala e usuario
+Projeto do maligno em que diversos usuários podem se comunicar
+Basicamente a versão pré-histórica do WhatsApp
