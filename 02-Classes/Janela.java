@@ -61,13 +61,12 @@ public class Janela
 			{}
 	}
 
-	public Janela(/*Socket s*/) throws Exception
+	public Janela(Socket s) throws Exception
 	{
-		//if(s == null)
-		//	throw new Exception("Socket null");
-		//this.conexao = s;
-		//this.transmissor = new ObjectOutputStream(conexao.getOutputStream());
-		//this.receptor = new ObjectInputStream(conexao.getInputStream());
+		if(s == null)
+			throw new Exception("Socket null");
+		this.conexao = s;
+		this.transmissor = new ObjectOutputStream(conexao.getOutputStream());
 		design();
 	}
 
@@ -145,7 +144,7 @@ public class Janela
 		txtEscrevaNome.setColumns(10);
 	}
 
-	public void mostrarDesingDeChat(ArrayList<String> usuarios)
+	public void mostrarDesignDeChat(ArrayList<String> usuarios)
 	{
 		lblNomeUsuario.setText("Bem Vindo, " + txtEscrevaNome.getText());
 		lblNomeSala.setText("Sala: " + escolhaSala.getSelectedItem());
@@ -267,9 +266,10 @@ public class Janela
 	{
 		public void trateClickNoBotaoOK()
 		{
+			mostrarEscolhaDeNome();
 			String s = escolhaSala.getSelectedItem()+"";
-			//this.transmissor.writeObject(new EscolhaDeSala(s));
-			//this.transmissor.flush;
+			this.transmissor.writeObject(new EscolhaDeSala(s));
+			this.transmissor.flush();
 		}
 
 		public void trateClickNoBotaoConfirmar()
@@ -291,8 +291,9 @@ public class Janela
 			}
 			else
 			{
-				//this.transmissor.writeObject(new EscolhaDeSala(s));
-				//this.transmissor.flush;
+				mostrarDesignDeChat(usuarios);
+				this.transmissor.writeObject(new EscolhaDeSala(s));
+				this.transmissor.flush();
 			}
 		}
 
@@ -306,8 +307,8 @@ public class Janela
 				if(s != null || !(s.trim().equals("")))
 				{
 					mostra(s, "Você");
-					//this.transmissor.writeObject(new Mensagem());
-					//this.transmissor.flush;
+					this.transmissor.writeObject(new Mensagem());
+					this.transmissor.flush();
 					txtEnviar.setText("");
 				}
 			}
@@ -325,8 +326,8 @@ public class Janela
 				{
 					mostraSaida("eu");
 					mostraPriv(s, "Você(para: " + cbxUsuariosDisp.getSelectedItem() + ")");
-					//this.transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + ""));
-					//this.transmissor.flush;
+					this.transmissor.writeObject(new Mensagem(cbxUsuariosDisp.getSelectedItem() + ""));
+					this.transmissor.flush();
 					txtEnviarPriv.setText("");
 				}
 			}
@@ -338,10 +339,10 @@ public class Janela
 		{
 			try
 			{
-				//this.transmissor.writeObject(new PedidoParaSairDaSala());
-				//this.transmissor.flush();
-				//this.conexao.close();
-				//this.transmissor.close();
+				this.transmissor.writeObject(new PedidoParaSairDaSala());
+				this.transmissor.flush();
+				this.conexao.close();
+				this.transmissor.close();
 			}
 			catch(Exception err)
 			{}

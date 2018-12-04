@@ -20,7 +20,6 @@ public class CuidadoraDeUsuario extends Thread
 		{
 			instanciarUsuario();
 
-			//loops for(;;) --> fim no break(pedido para sair da sala)
 			Enviavel recebido = null;
 			do
 			{
@@ -42,7 +41,7 @@ public class CuidadoraDeUsuario extends Thread
 			while(!(recebido instanceof PedidoParaSairDaSala));
 
 			//remover o this.usuario da sala
-			//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNick())
+			//mandar para todos da sala diferentes do this.usuario --> new AvisoDeSaidaDaSala(this.usuario.getNome())
 			for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
 				this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario.getNome()));
 
