@@ -13,8 +13,10 @@ public class Janela
 	private JFrame janela = new JFrame("Sala");
 	private JTextField txtEnviar = new JTextField();
 	private JTextPane txtAreaDeConversa = new JTextPane();	//Área na qual são escritas as mensagens
+	private JScrollPane jsp = new JScrollPane(txtAreaDeConversa);
 	private StyledDocument doc = txtAreaDeConversa.getStyledDocument();
 	private JTextPane txtAreaDeConversaPriv = new JTextPane();	//Área na qual são escritas as mensagens
+        private JScrollPane jspPriv = new JScrollPane(txtAreaDeConversaPriv);
 	private StyledDocument docPriv = txtAreaDeConversaPriv.getStyledDocument();
 	private JLabel lblNomeSala = new JLabel("Sala: ");  //label com o nome do fudido
 	private JButton btnEnviar = new JButton();	//envia mensagem
@@ -89,7 +91,7 @@ public class Janela
 	{
 		btnOK.setText("OK");
 		TratadorDeEvento tratador = new TratadorDeEvento();
-        btnOK.addActionListener(tratador);
+        	btnOK.addActionListener(tratador);
 
 		painelEscolhas.setLayout(new GridLayout(10,1));
 
@@ -184,12 +186,12 @@ public class Janela
 		JPanel painelSulLeste = new JPanel();
 		painelSulLeste.setLayout (new GridLayout(1,2));
 
-		painelLeste.add(txtAreaDeConversaPriv, BorderLayout.CENTER);
 		painelLeste.add(painelSulLeste,BorderLayout.SOUTH);
 		painelLeste.add(painelUsuarios,BorderLayout.NORTH);
+		painelLeste.add(jspPriv, BorderLayout.CENTER);
 
 		painelOeste.add(painelSulOeste,BorderLayout.SOUTH);
-		painelOeste.add(txtAreaDeConversa, BorderLayout.CENTER);
+		painelOeste.add(jsp, BorderLayout.CENTER);
 
 		this.janela.add(painelNorte,BorderLayout.NORTH);
 		this.janela.add(painelLeste,BorderLayout.EAST);

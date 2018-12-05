@@ -11,12 +11,10 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			Socket conexao = new Socket("177.220.18.113",12321);   //ip e porta
+			Socket conexao = new Socket("177.220.18.115",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
 			Janela janela = new Janela(conexao);
 
-
-			//janela.mostrarSalas(salas);
 
 			ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
 			Enviavel recebido = null;

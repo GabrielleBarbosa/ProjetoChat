@@ -56,6 +56,7 @@ public class CuidadoraDeUsuario extends Thread
 			synchronized(this.usuario.getSala())
 			{
 				this.usuario.getSala().removerUsuario(usuario);
+
 				for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
 					this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario.getNome()));
 			}
