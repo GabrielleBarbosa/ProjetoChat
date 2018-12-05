@@ -11,13 +11,9 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			Socket conexao = new Socket("143.106.200.175",12321);   //ip e porta
+			Socket conexao = new Socket("177.220.18.114",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
 			Janela janela = new Janela(conexao);
-			//ArrayList<String> salas = new ArrayList(6);
-			//salas.add("oi");
-			//salas.add("tchau");
-			//salas.add("boa tarde");
 
 
 			//janela.mostrarSalas(salas);

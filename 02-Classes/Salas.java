@@ -59,6 +59,7 @@ public class Salas
 
 	@param nome nome da sala que deseja ser encontrada.
 	@return retorna a sala desejada.
+	@throws Exception lança uma exceção quando a sala que deseja ser retornada não existe.
 	*/
 	public Sala getSala(String nome) throws Exception
 	{
@@ -74,6 +75,7 @@ public class Salas
 
 	@param index posição da sala em questão no array.
 	@return retorna a sala desejada.
+	@throws Exception caso o parâmetro esteja fora dos limites do array.
 	*/
 	public Sala getSala(int index) throws Exception
 	{
@@ -87,7 +89,8 @@ public class Salas
 	Retorna o nome da sala em questão e para isso utiliza do index da sala passado como parâmetro para encontrá-la.
 
 	@param index posição da sala em questão no array.
-	@return retorna o nome da sala
+	@return retorna o nome da sala.
+	@throws Exception quando index está fora dos limites do array.
 	*/
 	public String getNomeSala(int index) throws Exception
 	{
