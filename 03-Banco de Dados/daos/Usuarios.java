@@ -9,20 +9,19 @@ public class Usuarios
 {
     public static void incluir (Usuario usuario) throws Exception
     {
-        if(livro == null)
-            throw new Exception("Usuario nao fornecido");
-        
+        if(usuario == null)
+            throw new Exception("Usuario não foi fornecido");
+
         try
         {
             String sql;
-            
-            sql = "Insert into Usuario" +
+
+            sql = "INSERT INTO Usuario VALUES" +
                   "(codSala, nome)" +
-                  "Values" +
                   "(?,?)";
-            
+
             BDSQLServer.COMANDO.prepareStatement (sql);
-            
+
             BDSQLServer.COMANDO.setInt (1, usuario.getCodSala());
             BDSQLServer.COMANDO.setString (2, usuario.getNome());
         }
