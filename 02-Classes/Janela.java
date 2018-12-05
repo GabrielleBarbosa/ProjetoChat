@@ -149,6 +149,8 @@ public class Janela
 
 	public void mostrarDesignDeChat(ArrayList<String> usuarios)
 	{
+		this.janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
 		nomeUsuario = txtEscrevaNome.getText().trim();
 		lblNomeUsuario.setText("Bem Vindo, " + txtEscrevaNome.getText());
 		lblNomeSala.setText("Sala: " + escolhaSala.getSelectedItem());
@@ -388,6 +390,7 @@ public class Janela
 				transmissor.flush();
 				conexao.close();
 				transmissor.close();
+				janela.dispose();
 			}
 			catch(Exception err)
 			{}
