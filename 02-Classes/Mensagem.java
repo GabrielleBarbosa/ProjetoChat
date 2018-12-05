@@ -4,9 +4,9 @@ public class Mensagem implements Enviavel
 	private String destinatario;
 	private String mensagem;
 
-	public Mensagem(String nomeDestinatario, String nomeRemetente ,String msg) throws Exception
+	public Mensagem(String nomeDestinatario, String nomeRemetente, String msg) throws Exception
 	{
-		if(destinatario == null || destinatario == "" || nomeRemetente == null || nomeRemetente == "" || msg == null || msg == "")
+		if(nomeDestinatario == null || nomeDestinatario == "" || nomeRemetente == null || nomeRemetente == "" || msg == null || msg == "")
 			throw new Exception("Valores não podem ser null ou vazios");
 
 		this.remetente = nomeRemetente;

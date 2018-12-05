@@ -25,6 +25,7 @@ public class CuidadoraDeUsuario extends Thread
 			{
 				recebido = usuario.recebe();
 
+				System.out.println("aaaa");
 				if(recebido instanceof Mensagem)
 				{
 					if(((Mensagem)recebido).getDestinatario().equals(""))
@@ -35,8 +36,11 @@ public class CuidadoraDeUsuario extends Thread
 					}
 					else
 					{
+						System.out.println("Privada");
 						String nomeDestinatario = ((Mensagem)recebido).getDestinatario();
+						System.out.println("Destinatario:" + nomeDestinatario);
 						this.usuario.getSala().getUsuario(nomeDestinatario).envia(recebido);
+						System.out.println("Enviada");
 					}
 
 				}
@@ -62,7 +66,7 @@ public class CuidadoraDeUsuario extends Thread
 		// declarar e instanciar ObjectOutputStream e ObjectInputStream
 		ObjectOutputStream OOS = new ObjectOutputStream(conexao.getOutputStream());
 		ObjectInputStream OIS = new ObjectInputStream(conexao.getInputStream());
-		Sala sala;
+		SalaUsuario sala;
 		// interagir com o usuário via OOS e OIS para(até) descobrir sala desejada, eventualmente informando sala cheia
 		// procurar em salas a sala com o nome desejado
 
@@ -70,6 +74,8 @@ public class CuidadoraDeUsuario extends Thread
 
 		for(int i=0; i<salas.getQtdSalas(); i++)
 			listaNomeSalas.add(salas.getSala(i).getNome());
+
+
 
 		OOS.writeObject(new SalasDisponiveis(listaNomeSalas));
 		for(;;)

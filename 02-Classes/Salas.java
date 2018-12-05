@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import bd.daos.*;
 
 /**
 A classe Salas é uma classe que representa todas as salas do programa principal, as quais recupera do Banco de Dados.
@@ -12,7 +13,7 @@ public class Salas
 	/**
 	Array que armazena todas as salas do banco de dados.
 	*/
-	private ArrayList<Sala> listaSalas;
+	private ArrayList<SalaUsuario> listaSalas;
 	/**
 	variável que representa a quantidade de salas existentes(apenas as adicionadas via método 'adiconarSala').
 	*/
@@ -21,10 +22,15 @@ public class Salas
 	/**
 	Instancia um objeto do tipo Salas e instancia 'qtdSalas', fazendo com que receba 0.
 	*/
-	public Salas()
+	public Salas()throws Exception
 	{
-		listaSalas = new ArrayList<Sala>();
+		listaSalas = new ArrayList<SalaUsuario>(6);
 		this.qtdSalas = 0;
+		for(int i=1;i<6;i++)
+		{
+			SalaUsuario salaUsuario = new SalaUsuario(bd.daos.Salas.getSala(i));
+			adicionarSala(salaUsuario);
+		}
 	}
 
 	/**
@@ -32,7 +38,7 @@ public class Salas
 
 	@param sala sala a qual o programador deseja incluir na lista de salas.
 	*/
-	public void adicionarSala(Sala sala)
+	public void adicionarSala(SalaUsuario sala)
 	{
 		listaSalas.add(sala);
 		this.qtdSalas++;
@@ -61,7 +67,7 @@ public class Salas
 	@return retorna a sala desejada.
 	@throws Exception lança uma exceção quando a sala que deseja ser retornada não existe.
 	*/
-	public Sala getSala(String nome) throws Exception
+	public SalaUsuario getSala(String nome) throws Exception
 	{
 		for(int i=0; i<listaSalas.size();i++)
 			if(this.getSala(i).getNome().trim().equals(nome.trim()))
@@ -77,7 +83,7 @@ public class Salas
 	@return retorna a sala desejada.
 	@throws Exception caso o parâmetro esteja fora dos limites do array.
 	*/
-	public Sala getSala(int index) throws Exception
+	public SalaUsuario getSala(int index) throws Exception
 	{
 		if(index < 0 || index > this.qtdSalas)
 			throw new Exception("index fora dos limites");

@@ -11,7 +11,7 @@ public class Cliente //instancia janela
 	{
 		try
 		{
-			Socket conexao = new Socket("177.220.18.114",12321);   //ip e porta
+			Socket conexao = new Socket("177.220.18.113",12321);   //ip e porta
 			//colocar um receptor pra enviar pra janela
 			Janela janela = new Janela(conexao);
 
@@ -68,8 +68,9 @@ public class Cliente //instancia janela
 						}
 						else
 						{
-							System.out.println("ddddddddddd");
+							System.out.println("Privada");
 							janela.mostraPriv(((Mensagem)recebido).getMensagem(), ((Mensagem)recebido).getRemetente());
+							System.out.println("Enviada para mostrar");
 						}
 					}
 
@@ -86,6 +87,8 @@ public class Cliente //instancia janela
 
 	    }
 	    catch(Exception err)
-	    {}
+	    {
+			System.err.println(err.getMessage());
+		}
 	}
 }

@@ -9,10 +9,6 @@ public class Servidor
 		{
 			Salas salas = new Salas();
 
-			Sala sala = new Sala("oi", 8, 1);
-
-			salas.adicionarSala(sala);
-
 			ServerSocket pedido = new ServerSocket(12321); // ip e porta
 
 			for(;;)
@@ -24,6 +20,8 @@ public class Servidor
 			}
 		}
 		catch(Exception err)
-		{}
+		{
+			System.err.println(err.getMessage());
+		}
 	}
 }

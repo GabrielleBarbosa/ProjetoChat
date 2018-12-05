@@ -33,7 +33,7 @@ public class Usuario
 	/**
 	Variável que representa a sala na qual o usuário se encontra.
 	*/
-	protected Sala sala;
+	protected SalaUsuario sala;
 
 	/**
 	Método que instancia o usuário.
@@ -45,7 +45,7 @@ public class Usuario
 	@param i variável para instanciar o receptor de informações do usuário.
 	@throws Exception quando algum dos parâmetros é nulo.
 	*/
-	public Usuario(String nick, Socket s, Sala sa, ObjectOutputStream o, ObjectInputStream i) throws Exception //mandados pela thread
+	public Usuario(String nick, Socket s, SalaUsuario sa, ObjectOutputStream o, ObjectInputStream i) throws Exception //mandados pela thread
 	{
 		if(nick == null||s == null||sa == null ||i == null ||o == null)
 		   throw new Exception("PASSE TODOS OS PARÂMETROS!!!");
@@ -74,7 +74,7 @@ public class Usuario
 
 	@return retorna a sala na qual o suuário se encontra.
 	*/
-	public Sala getSala()
+	public SalaUsuario getSala()
 	{
 		return this.sala;
 	}

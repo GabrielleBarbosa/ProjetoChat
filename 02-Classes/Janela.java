@@ -123,6 +123,7 @@ public class Janela
 
 		for(int i=0; i<salas.size();i++)
 			escolhaSala.addItem(salas.get(i));
+
 	}
 
 	public void mostrarAvisoDeErro(String erro)throws Exception
@@ -135,12 +136,13 @@ public class Janela
 
 	public void mostrarEscolhaDeNome()
 	{
+
 		lblAvisoErros.setText("");
 		escolhaSala.setEnabled(false);
-		painelEscolhaDeSala.remove(btnOK);
 		painelEscolhaDeNome.add(lblSeuNome);
 		painelEscolhaDeNome.add(txtEscrevaNome);
 		painelEscolhaDeNome.add(btnOK);
+		painelEscolhaDeSala.remove(btnOK);
 		btnOK.setText("Confirmar");
 		txtEscrevaNome.setColumns(10);
 	}
@@ -245,6 +247,9 @@ public class Janela
 		if(textoR == null || textoR.trim().equals(""))
 			throw new Exception("texto null");
 
+		System.out.println("TextoR: " + textoR);
+		System.out.println("Remetente: "+ remetente);
+
 		docPriv.insertString(docPriv.getLength(), remetente + ": " + textoR + "\n",
 						 docPriv.getStyle("pink"));
 	}
@@ -304,7 +309,6 @@ public class Janela
 		{
 			try
 			{
-				mostrarEscolhaDeNome();
 				String s = escolhaSala.getSelectedItem()+"";
 				transmissor.writeObject(new EscolhaDeSala(s));
 				transmissor.flush();
