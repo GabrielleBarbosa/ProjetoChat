@@ -1,10 +1,13 @@
 Quando aperta 'sair', se tem 3 pessoas na sala funciona, se tem 2 n funciona.
 
 
-O sair n�o manda que saiu da sala quando tem duas pessoas, s� quando tem duas
+O sair não manda que saiu da sala quando tem duas pessoas, só quando tem duas
 
 Na terceira pessoa, o combobox de usuarios pra conversar ta multiplicando
 
 A conversa privada n ta funcionando ainda
 
 E falta o banco de dados do Chris
+
+Documentação que falta: Sala,PedidoParaSairDaSala,Mensagem,Janela,EscolhaDeSala,EscolhaDeNome,Enviavel,CuidadoraDeUsuario,Cliente,AvisoDeSalaInvalida,
+AvisoDeSalaEscolhidaComSucesso,AvisoDeSalaCheia,AvisoDeSaidaDaSala, AvisoDeNomeExistente,AvisoDeNomeEscolhidoComSucesso,AvisoDeEntradaNaSala,UsuariosNaSala,Usuarios,Servidor,SalasDisponiveis
