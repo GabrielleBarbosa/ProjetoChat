@@ -9,7 +9,7 @@ import java.net.*;
 A classe Usuario é uma classe que representa(como nos mostra o nome) o próprio Usuario.
 Nela encontramos métodos como instanciar usuario recuperar a sala e nome do usuario.
 
-@authors Felipe Melchior de Britto e Gabrielle da Silva barbosa.
+@authors Felipe Melchior de Britto, Gabrielle da Silva barbosa e Christovam Alves Lemos.
 @since 2018.
 */
 public class Usuario

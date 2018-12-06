@@ -6,17 +6,16 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.text.StyledDocument;
 
-//TUDO QUE ESTÁ COMENTADO É PORQUE PODE MUDAR OU QUE NÃO HÁ CERTEZA DA UTILIZAÇÃO
+
 public class Janela
 {
-	// O QUE DECLARAR?
 	private JFrame janela = new JFrame("Sala");
 	private JTextField txtEnviar = new JTextField();
 	private JTextPane txtAreaDeConversa = new JTextPane();	//Área na qual são escritas as mensagens
 	private JScrollPane jsp = new JScrollPane(txtAreaDeConversa);
 	private StyledDocument doc = txtAreaDeConversa.getStyledDocument();
 	private JTextPane txtAreaDeConversaPriv = new JTextPane();	//Área na qual são escritas as mensagens
-        private JScrollPane jspPriv = new JScrollPane(txtAreaDeConversaPriv);
+    private JScrollPane jspPriv = new JScrollPane(txtAreaDeConversaPriv);
 	private StyledDocument docPriv = txtAreaDeConversaPriv.getStyledDocument();
 	private JLabel lblNomeSala = new JLabel("Sala: ");  //label com o nome do fudido
 	private JButton btnEnviar = new JButton();	//envia mensagem
@@ -141,11 +140,11 @@ public class Janela
 
 		lblAvisoErros.setText("");
 		escolhaSala.setEnabled(false);
+		btnOK.setText("Confirmar");
+		painelEscolhaDeSala.remove(btnOK);
 		painelEscolhaDeNome.add(lblSeuNome);
 		painelEscolhaDeNome.add(txtEscrevaNome);
 		painelEscolhaDeNome.add(btnOK);
-		painelEscolhaDeSala.remove(btnOK);
-		btnOK.setText("Confirmar");
 		txtEscrevaNome.setColumns(10);
 	}
 
@@ -268,6 +267,7 @@ public class Janela
 
 
 		boolean jaEstaNoComboBox = false;
+		/*
 		for(int i=0; i<this.usuarios.size();i++)
 			if(this.usuarios.get(i).equals(remetente.trim()))
 				jaEstaNoComboBox = true;
@@ -276,8 +276,12 @@ public class Janela
 		{
 			this.cbxUsuariosDisp.addItem(remetente);
 			this.usuarios.add(remetente);
+		}*/
+		if(!(this.usuarios.contains(remetente))
+		{
+			this.cbxUsuariosDisp.addItem(remetente);
+			this.usuarios.add(remetente);
 		}
-
 
 		txtEnviarPriv.setEnabled(true);
 		btnEnviarPriv.setEnabled(true);
@@ -291,17 +295,25 @@ public class Janela
 		doc.insertString(doc.getLength(), remetente + " saiu da sala!\n",
 				 doc.getStyle("color: red;"));
 
-	    this.cbxUsuariosDisp.removeItem(remetente);
 
-	    for(int i=0; i<usuarios.size(); i++)
+	    /*for(int i=0; i<usuarios.size(); i++)
 	    	if(usuarios.get(i).equals(remetente.trim()))
+	    	{
+	    		this.cbxUsuariosDisp.removeItem(remetente);
 	    		usuarios.remove(i);
+	    	}*/
 
+		if(this.usuarios.contains(remetente))
+		{
+			this.cbxUsuariosDisp.removeItem(remetente);
+			this.usuarios.remove(remetente);
+		}
 	    if(this.usuarios.size() == 0)
 		{
 			txtEnviarPriv.setEnabled(false);
 			btnEnviarPriv.setEnabled(false);
 		}
+
 	}
 
 	public void fecharTudo() throws Exception

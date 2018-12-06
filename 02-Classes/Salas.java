@@ -3,9 +3,9 @@ import bd.daos.*;
 
 /**
 A classe Salas é uma classe que representa todas as salas do programa principal, as quais recupera do Banco de Dados.
-
 Nela encontramos métodos para adicionar salas, verificar se salas existem e recuperar informações sobre as Salas.
-@authors Felipe Melchior de Britto e Gabrielle da Silva Barbosa.
+
+@authors Felipe Melchior de Britto, Gabrielle da Silva barbosa e Christovam Alves Lemos.
 @since 2018.
 */
 public class Salas

@@ -4,8 +4,19 @@ import bd.*;
 import bd.core.*;
 import bd.dbos.*;
 
+/**
+	A classe Salas é uma classe static dao que faz operações no Banco de Dados referentes à tabela Sala.
+
+	@authors Felipe Melchior de Britto, Gabrielle da Silva barbosa e Christovam Alves Lemos.
+	@since 2018.
+*/
 public class Salas
 {
+	/**
+		Método que retorna todos os elementos da tabela sala.
+
+		@return MeuResultSet resultado.
+	*/
     public static MeuResultSet getSalas() throws Exception
     {
         MeuResultSet resultado = null;
@@ -28,9 +39,10 @@ public class Salas
         return resultado;
     }
 
-    public static Sala getSala(int codigo)
-
-    throws Exception
+	/**
+		Método que retorna uma sala de acordo com o código passado por parâmetro.
+	*/
+    public static Sala getSala(int codigo)throws Exception
     {
         Sala sala = null;
 

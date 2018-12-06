@@ -2,18 +2,48 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+/**
+A classe CuidadoraDeUsuario é uma classe thread que serve de intermédio para todas as ações de um usuário.
+
+@authors Felipe Melchior de Britto, Gabrielle da Silva barbosa e Christovam Alves Lemos.
+@since 2018.
+*/
 public class CuidadoraDeUsuario extends Thread
 {
+	/**
+		Socket que estabelece conexão com a janela.
+	*/
 	private Socket conexao;
+	/**
+		Objeto da classe Salas, que conterá todas as salas disponíveis para o usuário escolher.
+	*/
 	private Salas salas;
+	/**
+		Objeto de usuário que será instanciado após a sua escolha de sala e nome.
+	*/
 	private Usuario usuario;
 
+	/**
+		Construtor da classe, para instância de um Objeto de CuidadoraDeUsuario.
+
+		@param conexao Socket para conexão com a janela.
+		@param salas Objeto da classe salas contendo todas as salas.
+		@throws Exception se algum dos parâmetros for null.
+	*/
 	public CuidadoraDeUsuario(Socket conexao, Salas salas) throws Exception
 	{
+		if(conexao == null || salas == null)
+			throw new Exception("Parâmetro null");
+
 		this.conexao = conexao;
 		this.salas = salas;
 	}
 
+	/**
+		Método que instancia o usuario, comunicando-se através de objectOutputStream e ObjectInputStream enviando e recebendo objetos
+		enviaveis (interface Enviavel) e, após isso, continua intermediando as ações do usuario por mensagens publicas e
+		privadas (também enviáveis) e encerra-se quando há um PedidoParaSairDaSala.
+	*/
 	public void run()
 	{
 		try
@@ -67,6 +97,9 @@ public class CuidadoraDeUsuario extends Thread
 		{}
 	}
 
+    /**
+		Método privado que cuida da instância do usuario no run().
+	*/
 	private void instanciarUsuario() throws Exception
 	{
 		// declarar e instanciar ObjectOutputStream e ObjectInputStream

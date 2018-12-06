@@ -1,91 +1,152 @@
 package bd.dbos;
 
+/**
+	A classe SalaUsuario é uma classe dbo da tabela Sala do banco de dados.
+
+	@authors Felipe Melchior de Britto, Gabrielle da Silva barbosa e Christovam Alves Lemos.
+	@since 2018.
+*/
 public class Sala
 {
+	/**
+	String com nome da sala.
+	*/
 	protected String nome;
+	/**
+		Int código da sala.
+	*/
 	protected int cod;
+	/**
+		Int quantidade máxima de pessoas que podem ocupar a sala.
+	*/
 	protected int qtdMax;
-	protected int qtdOcupado;
 
-	public Sala(String n, int q, int c)
-		{
-			this.nome = n;
-			this.cod = c;
-			this.qtdMax = q;
-		}
+	/**
+		Construtor da classe.
 
-		public void setNome(String n)
-		{
-			this.nome = n;
-		}
+		@param n nome da sala.
+		@param q quantidade maxima na sala.
+		@param c código da sala.
+		@throws Exception se o o nome for null ou vazio.
+	*/
+	public Sala(String n, int q, int c)throws Exception
+	{
+		if(n == null || n == "")
+			throw new Exception("nome passado é null ou vazio");
 
-		public void setQtdMax(int q)
-		{
-			this.qtdMax = q;
-		}
+		this.nome = n;
+		this.cod = c;
+		this.qtdMax = q;
+	}
 
-		public String getNome()
-		{
-			return this.nome;
-		}
+	/**
+		Método para mudar o nome da sala.
 
-		public int getQtdMax()
-		{
-			return this.qtdMax;
-		}
+		@throws Exception se nome passado for null ou vazio.
+		@param n nome novo para a sala.
+	*/
+	public void setNome(String n)throws Exception
+	{
+		if(n == null || n == vazio)
+			throw new Exception("nome passado é null ou vazio");
 
-		public int getCod()
-		{
-			return this.cod;
-		}
+		this.nome = n;
+	}
 
-		public int getQtdOcupado()
-		{
-			return this.qtdOcupado;
-		}
+	/**
+		Método para mudar a quantidade máxima na sala.
 
-		public boolean isCheia()
-		{
-			if(this.qtdOcupado == this.qtdMax)
-				return true;
+		@throws Exception se a quantidade for negativa ou 0.
+		@param q quantidade nova para a sala.
+	*/
+	public void setQtdMax(int q)throws Exception
+	{
+		if(q <= 0)
+			throw new Exception("quantidade máxima passada é menor ou igual a zero");
 
-			return false;
-		}
+		this.qtdMax = q;
+	}
 
-		public String toString()
-		{
-			return "Nome da sala: " + this.nome + " Código: " + this.cod + " Lugares disponíveis: " + this.getQtdOcupado();
-		}
+	/**
+		Método que retorna nome da sala.
 
-		public boolean equals(Object obj)
-		{
-			if(obj == this)
-				return true;
+		@return nome da sala.
+	*/
+	public String getNome()
+	{
+		return this.nome;
+	}
 
-			if(obj == null)
-				return false;
+	/**
+		Método que retorna quantidade máxima de usuarios na sala.
 
-			if(obj.getClass() != this.getClass())
-				return false;
+		@return quantidade máxima de usuários.
+	*/
+	public int getQtdMax()
+	{
+		return this.qtdMax;
+	}
 
-			Sala sala = (Sala)obj;
+	/**
+		Método que retorna o código da sala.
 
-			if(this.cod != sala.cod)
-				return false;
+		@return código da sala.
+	*/
+	public int getCod()
+	{
+		return this.cod;
+	}
 
+	/**
+		Método que retorna uma String com informações da classe.
+
+		@return String contendo nome da sala, código e quantidade máxima ocupada.
+	*/
+	public String toString()
+	{
+		return "Nome da sala: " + this.nome + " Código: " + this.cod + " Quantidade máxima na sala: " + this.getQtdMax();
+	}
+
+	/**
+		Método que compara dois objetos da classe verificando seus atributos.
+
+		@param Objeto para comparação.
+		@return true ou false de acordo com a igualdade.
+	*/
+	public boolean equals(Object obj)
+	{
+		if(obj == this)
 			return true;
-		}
 
-		public int hashCode()
-		{
-			int ret = 5;
+		if(obj == null)
+			return false;
 
-			ret = ret*2 + new Integer(this.cod).hashCode();
+		if(obj.getClass() != this.getClass())
+			return false;
 
-			ret = ret*2 + new Integer(this.qtdMax).hashCode();
+		Sala sala = (Sala)obj;
 
-			ret = ret*2 + this.nome.hashCode();
+		if(this.cod != sala.cod)
+			return false;
 
-			return ret;
+		return true;
+	}
+
+	/**
+		Método que cria um código para um objeto da classe.
+
+		@return int código formado.
+	*/
+	public int hashCode()
+	{
+		int ret = 5;
+
+		ret = ret*2 + new Integer(this.cod).hashCode();
+
+		ret = ret*2 + new Integer(this.qtdMax).hashCode();
+
+		ret = ret*2 + this.nome.hashCode();
+
+		return ret;
 	}
 }

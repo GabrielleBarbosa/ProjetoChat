@@ -1,5 +1,4 @@
 package bd;
-
 import bd.core.*;
 import bd.daos.*;
 

@@ -13,7 +13,7 @@ public class Cliente //instancia janela
 		{
 			for(;;)
 			{
-				Socket conexao = new Socket("177.220.18.103",12321);   //ip e porta
+				Socket conexao = new Socket("143.106.200.233",12321);   //ip e porta
 				//colocar um receptor pra enviar pra janela
 				Janela janela = new Janela(conexao);
 
