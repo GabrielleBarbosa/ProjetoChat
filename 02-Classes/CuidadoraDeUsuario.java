@@ -25,7 +25,6 @@ public class CuidadoraDeUsuario extends Thread
 			{
 				recebido = usuario.recebe();
 
-				System.out.println("aaaa");
 				if(recebido instanceof Mensagem)
 				{
 					if(((Mensagem)recebido).getDestinatario().equals(""))
@@ -60,7 +59,7 @@ public class CuidadoraDeUsuario extends Thread
 				for(int i=0; i<this.usuario.getSala().getQtdOcupado(); i++)
 					this.usuario.getSala().getUsuario(i).envia(new AvisoDeSaidaDaSala(this.usuario.getNome()));
 			}
-
+			this.usuario.envia(new PedidoParaSairDaSala());
 			this.usuario.fechaTudo();
 
 		}
@@ -153,7 +152,10 @@ public class CuidadoraDeUsuario extends Thread
 			listaUsuariosSala = new ArrayList<String>(sala.getQtdMax());
 
 			for(int i=0; i<sala.getQtdOcupado(); i++)
+			{
+				System.out.println(sala.getUsuario(i).getNome());
 				listaUsuariosSala.add(sala.getUsuario(i).getNome());
+			}
 		}
 
 		OOS.writeObject(new UsuariosNaSala(listaUsuariosSala));

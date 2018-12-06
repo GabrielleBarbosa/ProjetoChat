@@ -266,20 +266,18 @@ public class Janela
 		doc.insertString(doc.getLength(), remetente + " entrou na sala!\n",
 				 doc.getStyle("bold"));
 
-		if(this.usuarios.size() > 0)
-		{
-			for(int i=0; i<this.usuarios.size();i++)
-				if(!(this.usuarios.get(i).equals(remetente.trim())))
-				{
-					this.cbxUsuariosDisp.addItem(remetente);
-					this.usuarios.add(remetente);
-				}
-		}
-		else
+
+		boolean jaEstaNoComboBox = false;
+		for(int i=0; i<this.usuarios.size();i++)
+			if(this.usuarios.get(i).equals(remetente.trim()))
+				jaEstaNoComboBox = true;
+
+		if(jaEstaNoComboBox == false)
 		{
 			this.cbxUsuariosDisp.addItem(remetente);
 			this.usuarios.add(remetente);
 		}
+
 
 		txtEnviarPriv.setEnabled(true);
 		btnEnviarPriv.setEnabled(true);
@@ -304,6 +302,13 @@ public class Janela
 			txtEnviarPriv.setEnabled(false);
 			btnEnviarPriv.setEnabled(false);
 		}
+	}
+
+	public void fecharTudo() throws Exception
+	{
+		conexao.close();
+		transmissor.close();
+		janela.dispose();
 	}
 
 	private class TratadorDeEvento implements ActionListener
@@ -390,9 +395,6 @@ public class Janela
 			{
 				transmissor.writeObject(new PedidoParaSairDaSala());
 				transmissor.flush();
-				conexao.close();
-				transmissor.close();
-				janela.dispose();
 			}
 			catch(Exception err)
 			{}
