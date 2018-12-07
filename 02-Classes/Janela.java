@@ -99,7 +99,7 @@ public class Janela
 		painelEscolhaDeSala.add(btnOK);
 		painelErros.add(lblAvisoErros);
 
-		this.janela.setSize(600,500);
+		this.janela.setSize(650,500);
 		this.janela.getContentPane().setLayout(new BorderLayout());
 
 		lblTitulo.setFont(new Font("Candara", Font.PLAIN, 30));
@@ -140,12 +140,14 @@ public class Janela
 
 		lblAvisoErros.setText("");
 		escolhaSala.setEnabled(false);
-		btnOK.setText("Confirmar");
 		painelEscolhaDeSala.remove(btnOK);
 		painelEscolhaDeNome.add(lblSeuNome);
 		painelEscolhaDeNome.add(txtEscrevaNome);
-		painelEscolhaDeNome.add(btnOK);
 		txtEscrevaNome.setColumns(10);
+		painelEscolhaDeNome.add(btnOK);
+		btnOK.setText("Confirmar");
+		this.janela.setSize(700,500);
+
 	}
 
 	public void mostrarDesignDeChat(ArrayList<String> usuarios)
@@ -228,6 +230,9 @@ public class Janela
 			txtEnviarPriv.setEnabled(false);
 			btnEnviarPriv.setEnabled(false);
 		}
+
+
+		this.janela.setSize(850,500);
 	}
 
 	public void mostra(String textoR, String remetente)throws Exception
@@ -267,17 +272,12 @@ public class Janela
 
 
 		boolean jaEstaNoComboBox = false;
-		/*
+
 		for(int i=0; i<this.usuarios.size();i++)
 			if(this.usuarios.get(i).equals(remetente.trim()))
 				jaEstaNoComboBox = true;
 
 		if(jaEstaNoComboBox == false)
-		{
-			this.cbxUsuariosDisp.addItem(remetente);
-			this.usuarios.add(remetente);
-		}*/
-		if(!(this.usuarios.contains(remetente))
 		{
 			this.cbxUsuariosDisp.addItem(remetente);
 			this.usuarios.add(remetente);
@@ -296,18 +296,13 @@ public class Janela
 				 doc.getStyle("color: red;"));
 
 
-	    /*for(int i=0; i<usuarios.size(); i++)
+	    for(int i=0; i<usuarios.size(); i++)
 	    	if(usuarios.get(i).equals(remetente.trim()))
 	    	{
 	    		this.cbxUsuariosDisp.removeItem(remetente);
 	    		usuarios.remove(i);
-	    	}*/
+	    	}
 
-		if(this.usuarios.contains(remetente))
-		{
-			this.cbxUsuariosDisp.removeItem(remetente);
-			this.usuarios.remove(remetente);
-		}
 	    if(this.usuarios.size() == 0)
 		{
 			txtEnviarPriv.setEnabled(false);
