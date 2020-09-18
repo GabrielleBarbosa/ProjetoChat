@@ -22,6 +22,7 @@ public class Servidor
 		catch(Exception err)
 		{
 			System.err.println(err.getMessage());
+			System.out.println("oie");
 		}
 	}
 }
